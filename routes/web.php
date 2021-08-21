@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ItemController;
+use App\Http\Controllers\ProductController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,4 +16,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::view('/', 'dashboard');
-Route::view('/inventory', 'inventory');
+
+Route::get('/item', [ItemController::class, 'index']);
+Route::post('/item', [ItemController::class, 'add']);
+Route::get('/products', [ProductController::class, 'index']);
