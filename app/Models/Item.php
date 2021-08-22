@@ -30,6 +30,10 @@ class Item extends Model
      */
     protected $fillable = ['name', 'quantity', 'unit_price', 'unit'];
 
+    public static function idByName($name) {
+        return Item::where(['name' => $name])->get()->first()->id;
+    }
+
     public static function updateQuantity($itemname, $quantity) {
     	$current_quantity = Item::where('name', '=', $itemname)
     								->get()
@@ -53,6 +57,6 @@ class Item extends Model
      * Products using this item
      */
     public function products() {
-    	return $this->belongsToMany(Product::class, 'items_product', 'product_id', 'id');
+    	return $this->belongsToMany(Product::class, 'items_product', 'item_id', 'product_id');
     }
 }

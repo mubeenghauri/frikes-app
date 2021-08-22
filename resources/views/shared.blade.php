@@ -54,8 +54,8 @@
                     <h5 class="leftpanel-title">Navigation</h5>
                     <ul class="nav nav-pills nav-stacked">
                         <li class="active"><a href="{{ url('/') }}"><i class="fa fa-home"></i> <span>Dashboard</span></a></li>
-                        <li><a href="{{ url('/inventory') }}"><span class="pull-right badge"></span><i class="fa fa-envelope-o"></i> <span>Items</span></a></li>
-                        <li ><a href=""><i class="fa fa-suitcase"></i> <span>Products</span></a></li>
+                        <li><a href="{{ url('/item') }}"><span class="pull-right badge"></span><i class="fa fa-envelope-o"></i> <span>Items</span></a></li>
+                        <li ><a href="{{ url('/products') }}"><i class="fa fa-suitcase"></i> <span>Products</span></a></li>
                         <li ><a href=""><i class="fa fa-edit"></i> <span>Closing</span></a>
                             <ul class="children">
                                 <li><a href="code-editor.html">Code Editor</a></li>

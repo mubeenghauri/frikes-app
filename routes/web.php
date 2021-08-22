@@ -20,3 +20,4 @@ Route::view('/', 'dashboard');
 Route::get('/item', [ItemController::class, 'index']);
 Route::post('/item', [ItemController::class, 'add']);
 Route::get('/products', [ProductController::class, 'index']);
+Route::post('/products', [ProductController::class, 'add']);

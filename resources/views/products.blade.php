@@ -71,12 +71,12 @@
             @csrf
             <div class="form-group">
                 <label class="sr-only" for="exampleInputEmail2">Product Name</label>
-                <input type="text" class="form-control"  name="itemname" id="exampleInputEmail2" placeholder="Item Name">
+                <input type="text" class="form-control"  name="productname" id="exampleInputEmail2" placeholder="Product Name">
             </div><!-- form-group -->
             
             <div class="form-group">
                 <label class="sr-only" for="exampleInputPassword2">Price</label>
-                <input type="number" class="form-control" name="quantity" id="exampleInputPassword2" placeholder="Item Quantity">
+                <input type="number" class="form-control" name="price" id="exampleInputPassword2" placeholder="Unit Price">
             </div><!-- form-group -->
             
             <div class="form-group">
@@ -84,10 +84,13 @@
                 {{-- <input type="text" class="form-control" name="unit" id="exampleInputPassword2" placeholder="kg / peices / liters"> --}}
 
                 @foreach($items as $i) 
+                <div>
                  <label>
-                  <input type="checkbox" name="{{$i->name}}">
+                  <input type="number" name="{{$i->name}}" step="0.001" placeholder="{{$i->name}}">
                    {{ $i->name }}
-                 </label>
+                 </label> 
+                </div>
+                 
                  @endforeach
             </div><!-- form-group -->
             <button type="submit" class="btn btn-primary mr5">Add</button>            
