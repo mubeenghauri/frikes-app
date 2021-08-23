@@ -14,6 +14,6 @@ class POSController extends Controller
     }
 
     public function demoPos() {
-    	return view('pos');
+    	return view('pos-demo-org');
     }
 }

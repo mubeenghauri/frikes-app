@@ -64,7 +64,7 @@
 	  	<div class="container">
 	  		<hr>
 	  		<div class="row">
-	  			<div class="col-md-3">
+	  			<!-- <div class="col-md-3">
 	  				<button style="" onclick="addOrder(this)">
 	  					<div class="card" style="width: 18rem">
 							  <div class="card-body">
@@ -75,8 +75,8 @@
 							</div>
 	  				</button>
 	  			</div>
-	  			<!-- seconnd card -->
-	  			<div class="col-md-3">
+	  			 seconnd card -->
+	  			<!-- <div class="col-md-3">
 	  				<button style="" onclick="addOrder(this)">
 	  					<div class="card" style="width: 18rem">
 							  <div class="card-body">
@@ -86,9 +86,9 @@
 							  </div>
 							</div>
 	  				</button>
-	  			</div>
+	  			</div> -->
 	  			<!-- another card -->
-	  			<div class="col-md-3">
+	  			<!-- <div class="col-md-3">
 	  				<button style="" onclick="addOrder(this)">
 	  					<div class="card" style="width: 18rem">
 							  <div class="card-body">
@@ -98,19 +98,22 @@
 							  </div>
 							</div>
 	  				</button>
-	  			</div>
+	  			</div> -->
 	  			<!-- one more -->
-	  			<div class="col-md-3">
-	  				<button style="" onclick="addOrder(this)">
-	  					<div class="card" style="width: 18rem">
-							  <div class="card-body">
-							    <h5 class="card-title"> Frieks Special</h5>
-							    <h6 class="card-subtitle mb-2 text-muted">Some description</h6>
-							  	<p>Price <span class="badge bg-dark">300</span></p>
-							  </div>
-							</div>
-	  				</button>
-	  			</div>
+
+	  			@foreach($products as $p)
+		  			<div class="col-md-3 mt-4">
+		  				<button style="" onclick="addOrder(this)">
+		  					<div class="card" style="width: 18rem">
+								  <div class="card-body">
+								    <h5 class="card-title"> {{ $p->name }}</h5>
+								    <h6 class="card-subtitle mb-2 text-muted">Some description</h6>
+								  	<p>Price <span class="badge bg-dark">{{ $p->price }}</span></p>
+								  </div>
+								</div>
+		  				</button>
+		  			</div> 
+		  		@endforeach
 	  		</div> <!-- End row -->
 	  		<hr>
 	  		<div class="container" style="margin-top: 30px;">
