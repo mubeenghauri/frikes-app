@@ -56,21 +56,21 @@
                         <li class="active"><a href="{{ url('/') }}"><i class="fa fa-home"></i> <span>Dashboard</span></a></li>
                         <li><a href="{{ url('/item') }}"><span class="pull-right badge"></span><i class="fa fa-envelope-o"></i> <span>Items</span></a></li>
                         <li ><a href="{{ url('/products') }}"><i class="fa fa-suitcase"></i> <span>Products</span></a></li>
-                        <li ><a href=""><i class="fa fa-edit"></i> <span>Closing</span></a>
-                            <ul class="children">
+                        <li ><a href=""><i class="fa fa-edit"></i> <span>Closing (coming soon) </span></a>
+                            {{-- <ul class="children">
                                 <li><a href="code-editor.html">Code Editor</a></li>
                                 <li><a href="general-forms.html">General Forms</a></li>
                                 <li><a href="form-layouts.html">Layouts</a></li>
                                 <li><a href="wysiwyg.html">Text Editor</a></li>
                                 <li><a href="form-validation.html">Validation</a></li>
                                 <li><a href="form-wizards.html">Wizards</a></li>
-                            </ul>
+                            </ul> --}}
                         </li>
-                        <li class="parent"><a href=""><i class="fa fa-bars"></i> <span>Tables</span></a>
-                            <ul class="children">
+                        <li ><a href="{{ url('/pos') }}"><i class="fa fa-bars"></i> <span>POS - NEW - DEMO</span></a>
+                            {{-- <ul class="children">
                                 <li><a href="basic-tables.html">Basic Tables</a></li>
                                 <li><a href="data-tables.html">Data Tables</a></li>
-                            </ul>
+                            </ul> --}}
                         </li>
                         <li><a href="maps.html"><i class="fa fa-map-marker"></i> <span>Maps</span></a></li>
                         <li class="parent"><a href=""><i class="fa fa-file-text"></i> <span>Pages</span></a>
