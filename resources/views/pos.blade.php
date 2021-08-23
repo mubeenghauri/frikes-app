@@ -226,7 +226,7 @@
 	  						<div class="container">
 	  							<div class="row">
 	  								<div class="col-md-6">
-	  									<button type="button" class="btn btn-warning">Confirm !</button>
+	  									<button type="button" onclick="confirm()" class="btn btn-warning">Confirm !</button>
 	  								</div>
 	  								<div class="col-md-6">
 	  									<button type="button" class="btn btn-danger" onclick="discard()">Discard</button>
@@ -246,7 +246,7 @@
 				var itemName = e.children[0].children[0].children[0].innerHTML;
 				var price = e.children[0].children[0].children[2].children[0].innerText;
 				// console.log(e.children[0].children[0].children[2].children[0].innerText);
-	  		console.log(itemName);
+		  		console.log(itemName);
 				var orders = document.getElementsByClassName('order-window')[0].children;
 				var createNewOrder = true;
 				console.log(orders.length)
@@ -338,6 +338,10 @@
 					sum += price * quantity;
 				}
 				setTotal(sum);
+	  	}
+
+	  	function confirm() {
+	  		alert("Printing order ... Not really :P, Coming soon");
 	  	}
 
 	  	function setTotal(total) {
