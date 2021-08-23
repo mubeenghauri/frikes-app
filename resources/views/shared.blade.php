@@ -66,13 +66,14 @@
                                 <li><a href="form-wizards.html">Wizards</a></li>
                             </ul> --}}
                         </li>
-                        <li ><a href="{{ url('/pos') }}"><i class="fa fa-bars"></i> <span>POS - NEW - DEMO</span></a>
+                        <li ><a href="{{ url('/pos') }}"><i class="fa fa-bars"></i> <span>POS - DEMO - static</span></a>
+                        <li ><a href="{{ url('/pos') }}"><i class="fa fa-bars"></i> <span>POS - dynamic (in development)</span></a>
                             {{-- <ul class="children">
                                 <li><a href="basic-tables.html">Basic Tables</a></li>
                                 <li><a href="data-tables.html">Data Tables</a></li>
                             </ul> --}}
                         </li>
-                        <li><a href="maps.html"><i class="fa fa-map-marker"></i> <span>Maps</span></a></li>
+                        <li><a href="maps.html"><i class="fa fa-map-marker"></i> <span>Sales (Coming soon) Next after POS</span></a></li>
                         <li class="parent"><a href=""><i class="fa fa-file-text"></i> <span>Pages</span></a>
                             <ul class="children">
                                 <li><a href="notfound.html">404 Page</a></li>
@@ -90,7 +91,16 @@
                         </li>
                         
                     </ul>
-                    
+                    <p class="p-1">
+                    Sir, will remove all the bullshit fazool extra words when in production ;)
+                    Hope u dont mind :P
+                    <br> <br>
+                    Share ur comments via email or FB or text, which ever is feasable to u.
+                    <br> <br>
+                    Also, the charts aint working, YET, they are here to just give u teaser,
+                    ... and they came with the theme :P
+                    </p>
+
                 </div><!-- leftpanel -->
         
                 @yield('pageContent')

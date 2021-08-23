@@ -203,43 +203,49 @@
                             <a title="" data-toggle="tooltip" class="tooltips mr5" href="" data-original-title="Settings"><i class="glyphicon glyphicon-cog"></i></a>
                             <a title="" data-toggle="tooltip" class="tooltips" id="addnewtodo" href="" data-original-title="Add New"><i class="glyphicon glyphicon-plus"></i></a>
                         </div><!-- panel-btns -->
-                        <h3 class="panel-title">To-Do List Widget</h3>
+                        <h3 class="panel-title">To-Do List for HA </h3>
                     </div>
                     <ul class="panel-body list-group nopadding">
                         <li class="list-group-item">
                               <div class="ckbox ckbox-default">
                                   <input type="checkbox" id="washcar" value="1">
-                                  <label for="washcar">Wash car in neighbors house</label>
+                                  <label for="washcar">Make Mahal ;) ifykwim</label>
                               </div>
                         </li>
                         <li class="list-group-item">
                               <div class="ckbox ckbox-default">
                                   <input type="checkbox" checked="checked" id="eatpizza" value="1">
-                                  <label for="eatpizza">Find and eat pizza anywhere</label>
+                                  <label for="eatpizza">Become Billonaire</label>
                               </div>
                         </li>
                         <li class="list-group-item">
                               <div class="ckbox ckbox-default">
                                   <input type="checkbox" checked="checked" id="washdish" value="1">
-                                  <label for="washdish">Wash the dishes and map the floor</label>
+                                  <label for="washdish">Have a huge dick ;) ;) VVIP</label>
                               </div>
                         </li>
                         <li class="list-group-item">
                               <div class="ckbox ckbox-default">
                                   <input type="checkbox" id="buyclothes" value="1">
-                                  <label for="buyclothes">Buy some clothes</label>
+                                  <label for="buyclothes">Buy some clothes for _______</label>
                               </div>
                         </li>
                         <li class="list-group-item">
                               <div class="ckbox ckbox-default">
                                   <input type="checkbox" checked="checked" id="throw" value="1">
-                                  <label for="throw">Throw the garbage</label>
+                                  <label for="throw">Throw myself in the garbage</label>
                               </div>
                         </li>
                         <li class="list-group-item">
                               <div class="ckbox ckbox-default">
                                   <input type="checkbox" id="reply" value="1">
-                                  <label for="reply">Reply all emails for this week</label>
+                                  <label for="reply"> Do Chaiking with lads VVIP</label>
+                              </div>
+                        </li>
+                        <li class="list-group-item">
+                              <div class="ckbox ckbox-default">
+                                  <input type="checkbox" id="reply" value="1">
+                                  <label for="reply"> We could make this thing work too, </label>
                               </div>
                         </li>
                     </ul>
