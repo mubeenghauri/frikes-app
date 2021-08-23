@@ -6,7 +6,7 @@
         <meta name="description" content="">
         <meta name="author" content="">
 
-        <title>themelock.com - Chain Responsive Bootstrap3 Admin</title>
+        <title>Frikes | Fullfilling Your Cravings </title>
 
         <link href="css/style.default.css" rel="stylesheet">
 
