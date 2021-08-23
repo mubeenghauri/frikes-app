@@ -67,7 +67,7 @@
                             </ul> --}}
                         </li>
                         <li ><a href="{{ url('/pos') }}"><i class="fa fa-bars"></i> <span>POS - DEMO - static</span></a>
-                        <li ><a href="{{ url('/pos') }}"><i class="fa fa-bars"></i> <span>POS - dynamic (in development)</span></a>
+                        <li ><a href="{{ url('/pos-dev') }}"><i class="fa fa-bars"></i> <span>POS - dynamic (in development)</span></a>
                             {{-- <ul class="children">
                                 <li><a href="basic-tables.html">Basic Tables</a></li>
                                 <li><a href="data-tables.html">Data Tables</a></li>
