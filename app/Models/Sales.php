@@ -79,7 +79,7 @@ class Sales extends Model
         $sale->delete();
     }
 
-    public static function deleted() {
+    public static function deletedSales() {
         return Sales::onlyTrashed()->get();
     }
 

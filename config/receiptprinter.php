@@ -19,7 +19,7 @@ return [
     | Typically printer name or IP address.
     |
     */
-    'connector_descriptor' => '',
+    'connector_descriptor' => 'BlackC',
     /*
     |--------------------------------------------------------------------------
     | Printer port
@@ -28,5 +28,5 @@ return [
     | Typically 9100.
     |
     */
-    'connector_port' => 9100,
+    'connector_port' => 9001,
 ];
