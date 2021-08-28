@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Item;
 use App\Models\Sales;
-
+use App\RPrinter;
 // use Carbon;
 use Log;
 
@@ -30,11 +30,18 @@ class POSController extends Controller
             $items = $request->input('items');
             $total = $request->input('total');
             $discount = $request->input('discount');
-    
+            $data['items'] = $items;
+            $data['total'] = $total;
+            $data['discount'] = $discount;
+
+
             /**
              * TODO send data to receipt printer
              */
-    
+
+            $printer = new RPrinter();
+
+
             $products = [];
     
             foreach ($items as $item) {
@@ -49,8 +56,13 @@ class POSController extends Controller
             }
     
             Log::debug($products);
-    
+            
+
+
             $sid = Sales::getId();
+
+            $printer->printRecipt($data, $sid);
+
             $sale = Sales::create([
                 'sale_id' => $sid,
                 'total_amount' => $total,
