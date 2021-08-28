@@ -14,17 +14,13 @@ class CreateSalesTable extends Migration
     public function up()
     {
         Schema::create('sales', function (Blueprint $table) {
-            $table->id();
-            $table->integer('sale_id');
-            $table->integer('product_id')->unsigned();
-            $table->integer('quantity');
-            $table->integer('product_price');
+            $table->integer('sale_id')->unique();
+            $table->integer('total_amount');
+            $table->integer('discount');
             $table->date('date');
+            $table->softDeletes($column = 'deleted_at', $precision = 0);
             $table->timestamps();
 
-            $table->foreign('product_id')
-                ->references('id')
-                ->on('products');
         });
     }
 

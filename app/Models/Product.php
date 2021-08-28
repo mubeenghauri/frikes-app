@@ -28,7 +28,7 @@ class Product extends Model
      * 
      * @var array
      */
-    protected $fillable = ['name', 'price'];
+    protected $fillable = ['name', 'price', 'category'];
 
     // public static function used_item		
 
@@ -51,14 +51,58 @@ class Product extends Model
     	}
     }
 
+    /**
+     * Decrement quantity for items
+     * associated with this product
+     */
+    public function decrementItems() {
+        $items = $this->items();
+        
+        foreach ($items as $item) {
+            $itemid = $item->pivot->item_id;
+            $unit_consumed = (float) $item->pivot->unit_consumed;
+            $r = Item::where('id', $itemid)->decrement('quantity', $unit_consumed);
+        }
+        return true;
+    }
+
+    /**
+     * Increement quantity for items
+     * associated with this product
+     */
+    public function incrementItems() {
+        $items = $this->items();
+        
+        foreach ($items as $item) {
+            $itemid = $item->pivot->item_id;
+            $unit_consumed = (float) $item->pivot->unit_consumed;
+            $r = Item::where('id', $itemid)->increment('quantity', $unit_consumed);
+
+        }
+        return true;
+    }
+
 	/**
 	 * The items that belong to this product
 	 */
 	public function items() {
 	
     	return $this->belongsToMany(Item::class, 'items_product', 'product_id', 'item_id')
-    				->withPivot('unit_consumed');
+    				->withPivot('unit_consumed')
+                    ->get();
 	}
+
+
+	/**
+	 * The items that belong to this product
+	 */
+	public function sales() {
+	
+    	return $this->belongsToMany(Sale::class, 'sale_product', 'product_id', 'sale_id')
+    				->withPivot('quantity')
+    				->withPivot('price');
+	}
+
 
 	/**
 	 * Get number of units of items to be consumed 

@@ -28,7 +28,7 @@ class Item extends Model
      * 
      * @var array
      */
-    protected $fillable = ['name', 'quantity', 'unit_price', 'unit'];
+    protected $fillable = ['name', 'quantity', 'warning_quantity', 'unit_price', 'unit'];
 
     public static function idByName($name) {
         return Item::where(['name' => $name])->get()->first()->id;

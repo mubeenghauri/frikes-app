@@ -17,6 +17,7 @@ class ProductController extends Controller
 	public function add(Request $request) {
 		$productname = $request->input('productname');
 		$price = $request->input('price');
+		$category = $request->input('category');
 
 		$items = Item::all();
 		$dependent_items = array();
@@ -27,11 +28,14 @@ class ProductController extends Controller
 			: false;
 		}
 
+		// first create the product
 		Product::create([
 			'name' => $productname,
-			'price' => $price
+			'price' => $price,
+			'category' => $category
 		]);
 
+		// then add the items associated with the product
 		Product::addItems($productname, $dependent_items);
 		
 		return $this->index($request, "Added Product succesfully !!");

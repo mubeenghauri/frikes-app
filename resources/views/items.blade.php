@@ -37,6 +37,7 @@
                 <th>#</th>
                 <th>Item Name</th>
                 <th>Quantity</th>
+                <th>Warning Quantity</th>
                 <th>Unit</th>
                 {{-- <th>Username</th> --}}
                 {{-- <th>Username</th> --}}
@@ -50,6 +51,7 @@
                 <td>{{ $item->id }}</td>
                 <td>{{ $item->name }}</td>
                 <td>{{ $item->quantity }}</td>
+                <td>{{ $item->warning_quantity }}</td>
                 <td>{{ $item->unit }}</td>
               </tr>
               @endforeach
@@ -80,16 +82,22 @@
             </div><!-- form-group -->
             
             <div class="form-group">
+                <label class="sr-only" for="exampleInputPassword2">Warning Quantity</label>
+                <input type="number" class="form-control" name="warning_quantity" id="exampleInputPassword2" placeholder="Warning Quantity">
+            </div><!-- form-group -->
+
+            <div class="form-group">
                 <label class="sr-only" for="exampleInputPassword2">Item Unit</label>
                 <input type="text" class="form-control" name="unit" id="exampleInputPassword2" placeholder="kg / peices / liters">
             </div><!-- form-group -->
-            <button type="submit" class="btn btn-primary mr5">Add</button>            
+            <div class="modal-footer">
+             <button type="submit" class="btn btn-primary mr5">Add</button> 
+
+            </div>
+            <!-- <button class="p-" type="submit" class="btn btn-primary mr5">Add</button>             -->
           </form>
         </div>
-        <div class="modal-footer">
-            {{-- <button type="submit" class="btn btn-secondry mr5">Update</button> --}}
-
-        </div>
+        
     </div>
   </div>
 </div>

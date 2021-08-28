@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\POSController;
-
+use App\ReceiptPrinter;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -24,3 +24,5 @@ Route::get('/products', [ProductController::class, 'index']);
 Route::post('/products', [ProductController::class, 'add']);
 Route::get('/pos', [POSController::class, 'demoPos'] );
 Route::get('/pos-dev', [POSController::class, 'index'] );
+Route::post('/order', [POSController::class, 'processOrder']);
+Route::get('/print', [ReceitpPrinter::class, 'print' ]);

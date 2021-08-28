@@ -37,10 +37,8 @@
                 <th>#</th>
                 <th>Product Name</th>
                 <th>Price</th>
+                <th>Category</th>
                 <th>Items</th>
-                {{-- <th>Username</th> --}}
-                {{-- <th>Username</th> --}}
-
               </tr>
             </thead>
             <tbody>
@@ -50,6 +48,7 @@
                 <td>{{ $p->id }}</td>
                 <td>{{ $p->name }}</td>
                 <td>{{ $p->price }}</td>
+                <td>{{ $p->category }} </td>
                 <td> Comming Soon ... </td>
               </tr>
               @endforeach
@@ -78,10 +77,15 @@
                 <label class="sr-only" for="exampleInputPassword2">Price</label>
                 <input type="number" class="form-control" name="price" id="exampleInputPassword2" placeholder="Unit Price">
             </div><!-- form-group -->
-            
+            <div class="form-group">
+                <label class="sr-only" for="exampleInputPassword2">Category</label>
+                <select name="category" id="">
+                  <option value="main-course"> Main Course</option>
+                  <option value="soft-drinks"> Soft Drinks </option>
+                </select>  
+            </div><!-- form-group -->
             <div class="form-group">
                 <label class="sr-only" >Items </label>
-                {{-- <input type="text" class="form-control" name="unit" id="exampleInputPassword2" placeholder="kg / peices / liters"> --}}
 
                 @foreach($items as $i) 
                 <div>

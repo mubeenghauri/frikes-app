@@ -17,6 +17,7 @@ class CreateItemsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->float('quantity');
+            $table->float('warning_quantity');
             $table->integer('unit_price')->nullable();
             $table->string('unit')->default('units');  // the unit of mesurement for this specific item (kg, pieces)
             $table->timestamps();

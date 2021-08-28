@@ -19,6 +19,7 @@ class ItemController extends Controller
     public function add(Request $request) {
     	$itemName = $request->input('itemname');
     	$quantity = $request->input('quantity');
+    	$warning_quantity = $request->input('warning_quantity');
     	$unit = $request->input('unit');
     	$msg = 'Something went wrong';
     	// check to see if item exists
@@ -31,6 +32,7 @@ class ItemController extends Controller
     		Item::create([
     			'name' => $itemName,
     			'quantity' => $quantity,
+				'warning_quantity' => $warning_quantity,
     			'unit' => $unit
     		]);
     		$msg = "Added Item succesfully !!";
