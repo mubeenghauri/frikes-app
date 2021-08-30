@@ -151,7 +151,7 @@ class RPrinter {
             }
     }
 
-    public function xreport($products, $items, $subtotal, $discount) {
+    public function xreport($products, $items, $subtotal, $discount, $date) {
 
         // foreach ($products as $name => $data) {
         //     Log::debug($name, $data);
@@ -175,11 +175,12 @@ class RPrinter {
             
             $this->printer->text("Frikes");
             $this->feed(2);
-            // $this->printer->selectPrintMode();
+            $this->printer->selectPrintMode();
             // $this->printer->text("{$this->store->getAddress()}\n");
-            $this->printer->text(date('j F Y H:i:s'));
+            $this->printer->text($date);
+            
             // $this->printer->text("Order ID : " . $sid . "\n");
-            // $this->printer->feed(1);
+            $this->printer->feed(2);
             // Print receipt title
             $this->printer->setEmphasis(true);
             $this->printer->text("X-REPORT\n");
@@ -188,9 +189,10 @@ class RPrinter {
 
             $this->printer->setEmphasis(true);
             $this->printer->text("Sales\n");
-            $this->printer->setEmphasis(true);
+            // $this->printer->setEmphasis(false);
             $this->printer->feed(2);
             // print header
+            $this->printer->selectPrintMode();
 
             $this->printer->setJustification(Printer::JUSTIFY_LEFT);
             $this->printer->text( str_pad('Product',  25) );
@@ -218,7 +220,7 @@ class RPrinter {
 
             $this->printer->setJustification(Printer::JUSTIFY_LEFT);
             $this->printer->selectPrintMode();
-            foreach($products as $name -> $data) {
+            foreach($products as $name => $data) {
                 
                 $this->printer->text(str_pad($name, 25));
 
@@ -261,7 +263,7 @@ class RPrinter {
             $this->printer->setEmphasis(true);
             $this->printer->text("Items Status\n");
             // $this->printer->setEmphasis(false);
-
+            $this->feed(2);
             // printing quantities
             $this->printer->setJustification(Printer::JUSTIFY_LEFT);
             $this->printer->text( str_pad('Item Name',  25) );
@@ -289,7 +291,7 @@ class RPrinter {
 
             $this->printer->setJustification(Printer::JUSTIFY_LEFT);
             $this->printer->selectPrintMode();
-            foreach($item as $i) {
+            foreach($items as $i) {
                 
                 $this->printer->text(str_pad($i['name'], 25));
 
