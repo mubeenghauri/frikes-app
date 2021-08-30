@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Item;
+use Log;
 
 class ProductController extends Controller
 {
@@ -41,4 +42,15 @@ class ProductController extends Controller
 		return $this->index($request, "Added Product succesfully !!");
 	}
 
+	public function getItems(Request $request) {
+		$id = $request->input('productid');
+		Log::debug("Got product id : $id");
+		$items = Product::where('id', $id)->get()->first()->items();
+		$arrayItems = [];
+		foreach ($items as $i) {
+			$arrayItems[] = $i->toArray();
+		}
+
+		return response()->json($arrayItems);
+	}
 }

@@ -43,7 +43,7 @@ class Sales extends Model
     public static $salesIdPrefix = "S-";
 
     public static function getId() {
-        $salecount = count(Sales::all())+1;
+        $salecount = Sales::withTrashed()->get()->count()+1;
         return Sales::$salesIdPrefix."00".$salecount;
     }
 

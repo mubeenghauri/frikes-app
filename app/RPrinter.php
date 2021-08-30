@@ -10,9 +10,15 @@ use Log;
 class RPrinter {
 
     function __construct() {
-         
-        $connector = new WindowsPrintConnector("BlackC");
-        $this->printer = new PRINTER($connector);
+        $this->connected = true;
+        try {
+            $connector = new WindowsPrintConnector("BlackC");
+            $this->printer = new Printer($connector);
+        } catch (Exception $e) {
+            Log::debug("[RPrinter] Unable to initiate connection to printer.");
+            $this->connected = false;
+            return false;
+        }
     }
 
     public function feed($feed = 1) {
@@ -29,6 +35,11 @@ class RPrinter {
             $discount = $data['discount'];
             Log::debug($data);
             Log::debug($subtotal);
+            if(!$this->connected) {
+                return false;
+            }
+
+
             // Init printer settings
             $this->printer->initialize();
             $this->printer->selectPrintMode();
@@ -99,16 +110,6 @@ class RPrinter {
                 $this->feed();         
             }
 
-
-            // Print items
-            // // if ($with_items) {
-            // $this->printer->setJustification(Printer::JUSTIFY_LEFT);
-            //     foreach ($this->items as $item) {
-            //         $this->printer->text($item);
-            //     }
-            //     $this->printer->feed();
-            // }
-
             $this->feed(2);
             // Print subtotal
             $this->printer->setEmphasis(true);
@@ -143,7 +144,11 @@ class RPrinter {
             $this->printer->feed(2);
             // Cut the receipt
             $this->printer->cut();
-            $this->printer->close();
+            try {
+                $this->printer->close();
+            } catch (\Exception $e) {
+                return false;
+            }
     }
 
     public function print() {
