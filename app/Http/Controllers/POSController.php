@@ -39,7 +39,6 @@ class POSController extends Controller
              * TODO send data to receipt printer
              */
 
-            $printer = new RPrinter();
 
 
             $products = [];
@@ -61,7 +60,20 @@ class POSController extends Controller
 
             $sid = Sales::getId();
 
-            $printer->printRecipt($data, $sid);
+            try{
+                $printer = new RPrinter();
+                
+                if ($printer == false || $printer->printRecipt($data, $sid) == false) {
+                    throw new \Exception("No printer found");
+                } 
+            } catch(\Exception $e) {
+                if(env('APP_ENV' == 'production')) {
+                    Log::debug("Printer error. sending error response");
+                    return response("Printer Error", 500);
+
+                }
+
+            }
 
             $sale = Sales::create([
                 'sale_id' => $sid,
@@ -73,8 +85,8 @@ class POSController extends Controller
             Sales::addProducts($products, $sid);
         } catch (Exception $e) {
             Log::warning('[POSController] [processOrder] Error occoured : ', (array) $e);
-            response()->json(["status" => "failure"]);
+            return response()->json(["status" => "failure"])->status(500);
         }
-        response()->json(["status" => "success"])->status(200);
+        return response()->json(["status" => "success"])->status(200);
     }
 }
