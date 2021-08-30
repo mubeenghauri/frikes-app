@@ -8,6 +8,8 @@
 	<meta name="csrf-token" content="{{ csrf_token() }}">
 	<script src="js/jquery-3.6.0.min.js"></script>
 	<script src="js/toastr.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+
 
 	<style type="text/css">
 		button {
@@ -216,57 +218,31 @@
 		<!-- Navbar -->
 	  <nav class="navbar navbar-expand-lg  bg-warning">
 	    <!-- <div class="container-fluid text-center"> -->
-	   		<h2 class="c-nav bold" style="font-weight: bold;align-content: center; margin-left: 47%; color: white;">Frikes</h2>
-	    <!-- </div> -->
+		<a href="{{url('/')}}">
+			<img class="" style="margin-left: 10px; fill:white;"  src="css/icons/solid/home.svg" width="35" alt="home page">
+		</a>
+		<!-- </div> -->
+		<h2 class="c-nav bold" style="font-weight: bold;align-content: center; margin-left: 47%; color: white; clear: both;">Frikes</h2>
+		<!-- <div class="container-fluid navs" >
+			<div class="row" style="margin-left: 200px;">
+				<div class="col-md-6 form" >
+					<select  class="form-control"  placeholder="Cancel Order" name="" id="">
+						<option value="1">Some Option</option>
+					</select>
+				</div>
+				<div class="col-md-6">
+				<img onclick="showModal()"  onclick="" width="34" src="css/icons/trash-white.svg" alt="undo cancel sale">    
+
+				</div>
+			</div>
+		</div> -->
 	  </nav>
-
-	  <!-- <div class="container">
-		<div class="alert alert-success" role="alert"> <center>Yay</center></div>
-
-	  </div> -->
 
 
 	  <div class="main" style="margin-top: 20px;">
 	  	<div class="container-fluid pl-4 ml-4">
 	  		<hr>
 	  		<div class="row">
-	  			<!-- <div class="col-md-3">
-	  				<button style="" onclick="addOrder(this)">
-	  					<div class="card" style="width: 18rem">
-							  <div class="card-body">
-							    <h5 class="card-title">Loaded Fries</h5>
-							    <h6 class="card-subtitle mb-2 text-muted">Some description</h6>
-							  	<p>Price : <span class="badge bg-light text-dark">200</span> </p> 
-							  </div>
-							</div>
-	  				</button>
-	  			</div>
-	  			 seconnd card -->
-	  			<!-- <div class="col-md-3">
-	  				<button style="" onclick="addOrder(this)">
-	  					<div class="card" style="width: 18rem">
-							  <div class="card-body">
-							    <h5 class="card-title">Fries</h5>
-							    <h6 class="card-subtitle mb-2 text-muted">Some description</h6>
-							  	<p>Price <span class="badge bg-warning ">100</span></p>
-							  </div>
-							</div>
-	  				</button>
-	  			</div> -->
-	  			<!-- another card -->
-	  			<!-- <div class="col-md-3">
-	  				<button style="" onclick="addOrder(this)">
-	  					<div class="card" style="width: 18rem">
-							  <div class="card-body">
-							    <h5 class="card-title">Potato Spirals</h5>
-							    <h6 class="card-subtitle mb-2 text-muted">Some description</h6>
-							  	<p>Price <span class="badge bg-warning text-dark">150</span></p>
-							  </div>
-							</div>
-	  				</button>
-	  			</div> -->
-	  			<!-- one more -->
-
 	  			@foreach($products as $p)
 				  @if ($p->category == "main-course")
 				  <div class="col-md-2 ml-4" style="padding-top:10px;">
@@ -293,57 +269,6 @@
 	  				<div class="col-md-3" style="border-style: none; padding: 0%; margin: 0%;">
 	  					<center><h5>Drinks</h5></center>
 	  					<ul class="list-group list-group-flush">
-	  					<!-- Drink Card -->
-	  						<!-- <div class="padder list-group-item">
-		  						<button class="" onclick="addOrder(this)">
-				  					<div class="card" style="width: 18rem">
-										  <div class="card-body">
-										    <h5 class="card-title">Coke</h5>
-										    <h6 class="card-subtitle mb-2 text-muted">Some description</h6>
-										  	<p>Price <span class="badge bg-light text-dark">60</span></p>
-										  </div>
-										</div>
-				  				</button>
-		  					</div> -->
-
-								<!-- Another drink card 
-		  					<div class="padder-secondary list-group-item">
-		  						<button class="" onclick="addOrder(this)">
-				  					<div class="card" style="width: 18rem">
-										  <div class="card-body">
-										    <h5 class="card-title">Pepsi</h5>
-										    <h6 class="card-subtitle mb-2 text-muted">Some description</h6>
-										  	<p>Price <span class="badge bg-light text-dark">60</span></p>
-										  </div>
-										</div>
-				  				</button>
-		  					</div> -->
-
-		  					<!-- Another drink card  -->
-		  					<!-- <div class="padder-secondary list-group-item">
-		  						<button class="" onclick="addOrder(this)">
-				  					<div class="card" style="width: 18rem">
-										  <div class="card-body">
-										    <h5 class="card-title">Dew</h5>
-										    <h6 class="card-subtitle mb-2 text-muted">Some description</h6>
-										  	<p>Price <span class="badge bg-light text-dark">60</span></p>
-										  </div>
-										</div>
-				  				</button>
-		  					</div> -->
-
-		  					<!-- Another drink card  -->
-		  					<!-- <div class="padder-secondary list-group-item">
-		  						<button class="" onclick="addOrder(this)">
-				  					<div class="card" style="width: 18rem">
-										  <div class="card-body">
-										    <h5 class="card-title">Sting</h5>
-										    <h6 class="card-subtitle mb-2 text-muted">Some description</h6>
-										  	<p>Price <span class="badge bg-light text-dark">60</span></p>
-										  </div>
-										</div>
-				  				</button>
-		  					</div> -->
 							  @foreach($products as $p)
 								@if ($p->category == "soft-drinks")
 								<div class="col-md-3 mt-4">
@@ -422,7 +347,28 @@
 	  		</div>
 	  	</div> <!-- End container -->
 	  </div> <!-- End main -->
+            <!-- begin product items modal -->
+            <div id="cancel-order-modal" class="modal fade cancel-order" tabindex="" role="dialog">
+                <div class="modal-dialog modal-lg">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button aria-hidden="true" data-dismiss="modal" class="close" type="button">&times;</button>
+                            <h4 class="modal-title">Items</h4>
+                        </div>
+                        <div id="items-modal-body" class="modal-body">
 
+                            <form class="form" action="">
+								<label class="form-input" for=""> </label>
+								<select class="form-input" name="" id=""></select>
+						
+							</form>
+                        </div>
+                        <div class="modal-footer">
+							<button class="btn btn-primary"> Cancel Order </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
 	  <script type="text/javascript">
 	  	// window.print();
 
@@ -582,12 +528,18 @@
 
 					if(xhr.status == 200) {
 						toastr.success('Added order Successfully !!');
+					} else if(xhr.status == 500 && xhr.responseText != "") {
+						toastr.warning(xhr.responseText);
 					} else {
 						toastr.warning('Failed Adding order !');
 					}
 				}
 			};
 			xhr.send(JSON.stringify(orderdata));
+		}
+
+		function showModal() {
+			$("#cancel-order-modal").modal('show');
 		}
 	  </script>
 </body>

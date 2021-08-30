@@ -35,17 +35,17 @@
                         {{-- <div class="panel-icon"><i class="fa fa-dollar"></i></div> --}}
                         <div class="media-body">
                             <h5 class="md-title nomargin">Today's Earnings</h5>
-                            <h1 class="mt5">$8,102.32</h1>
+                            <h1 class="mt5">8,102.32</h1>
                         </div><!-- media-body -->
                         <hr>
                         <div class="clearfix mt20">
                             <div class="pull-left">
                                 <h5 class="md-title nomargin">Yesterday</h5>
-                                <h4 class="nomargin">$29,009.17</h4>
+                                <h4 class="nomargin">29,009.17</h4>
                             </div>
                             <div class="pull-right">
                                 <h5 class="md-title nomargin">This Week</h5>
-                                <h4 class="nomargin">$99,103.67</h4>
+                                <h4 class="nomargin">99,103.67</h4>
                             </div>
                         </div>
                         
@@ -110,7 +110,7 @@
         
         <div class="alert alert-info">
             <button aria-hidden="true" data-dismiss="alert" class="close" type="button">&times;</button>
-            <strong>Heads up!</strong> This <a class="alert-link" href="">alert needs your attention</a>, but it's not super important.
+            <!-- <strong>Heads up!</strong> This <a class="alert-link" href="">alert needs your attention</a>, but it's not super important. -->
         </div>
 
         <div class="row">
@@ -205,7 +205,7 @@
                         </div><!-- panel-btns -->
                         <h3 class="panel-title">To-Do List for HA </h3>
                     </div>
-                    <ul class="panel-body list-group nopadding">
+                    <!-- <ul class="panel-body list-group nopadding">
                         <li class="list-group-item">
                               <div class="ckbox ckbox-default">
                                   <input type="checkbox" id="washcar" value="1">
@@ -248,7 +248,7 @@
                                   <label for="reply"> We could make this thing work too, </label>
                               </div>
                         </li>
-                    </ul>
+                    </ul> -->
                 </div>
             </div><!-- col-md-4 -->
         </div><!-- row -->
