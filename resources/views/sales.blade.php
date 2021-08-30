@@ -125,11 +125,12 @@ function updateTable(date) {
     var table = $('#table')[0];
     table.innerHTML = "";
     data.forEach((d, i, _) => {
-        samount = samount + parseInt(d.total_amount);
-        disc = disc + parseInt(d.discount);
+        
         var t = `<tr onclick="getProducts('${d.sale_id}')" > <td> ${i+1} </td>  <td> ${d.sale_id} </td> <td> ${d.total_amount} </td><td> ${d.discount} </td>`;
 
         if(d.deleted_at ==  null) {
+            samount = samount + parseInt(d.total_amount);
+            disc = disc + parseInt(d.discount);
             t += ` <td style="color:green"> Clear  </td> `;
             t += ` <td> <img onclick="cancelSale('${d.sale_id}')" src="css/icons/trash.svg" alt="cancel sale">  </td> `;
         } else {
