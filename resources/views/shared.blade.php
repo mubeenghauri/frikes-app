@@ -7,6 +7,7 @@
         <meta name="author" content="">
 
         <title>Frikes | Fullfilling Your Cravings </title>
+        <link rel="stylesheet" type="text/css" href="css/toastr.min.css">
 
         <link href="css/style.default.css" rel="stylesheet">
         <!-- <link href="css/bootstrap.min.css" rel="stylesheet"> -->
@@ -100,7 +101,9 @@
         </section>
         
        
-        <script src="js/jquery-1.11.1.min.js"></script>
+        <!-- <script src="js/jquery-1.11.1.min.js"></script> -->
+        <script src="js/jquery-3.6.0.min.js"></script>
+
         <script src="js/jquery-migrate-1.2.1.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <script src="js/modernizr.min.js"></script>
@@ -108,6 +111,7 @@
         <script src="js/retina.min.js"></script>
         <script src="js/jquery.cookies.js"></script>
         <script src="js/custom.js"></script>
+        <script src="js/toastr.js"></script>
         
         @yield('js')
 

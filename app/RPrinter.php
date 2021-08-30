@@ -151,6 +151,176 @@ class RPrinter {
             }
     }
 
+    public function xreport($products, $items, $subtotal, $discount) {
+
+        // foreach ($products as $name => $data) {
+        //     Log::debug($name, $data);
+        // }
+
+            if(!$this->connected) {
+                return false;
+            }
+
+            // Init printer settings
+            $this->printer->initialize();
+            $this->printer->selectPrintMode();
+            // Set margins
+            $this->printer->setJustification(Printer::JUSTIFY_CENTER);
+
+            $this->printer->setEmphasis(true);
+            $this->printer->selectPrintMode(Printer::MODE_DOUBLE_HEIGHT);
+
+            $this->printer->selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
+            // $this->printer->feed();
+            
+            $this->printer->text("Frikes");
+            $this->feed(2);
+            // $this->printer->selectPrintMode();
+            // $this->printer->text("{$this->store->getAddress()}\n");
+            $this->printer->text(date('j F Y H:i:s'));
+            // $this->printer->text("Order ID : " . $sid . "\n");
+            // $this->printer->feed(1);
+            // Print receipt title
+            $this->printer->setEmphasis(true);
+            $this->printer->text("X-REPORT\n");
+            $this->printer->setEmphasis(true);
+            $this->printer->feed(1);
+
+            $this->printer->setEmphasis(true);
+            $this->printer->text("Sales\n");
+            $this->printer->setEmphasis(true);
+            $this->printer->feed(2);
+            // print header
+
+            $this->printer->setJustification(Printer::JUSTIFY_LEFT);
+            $this->printer->text( str_pad('Product',  25) );
+
+            $this->printer->setJustification(Printer::JUSTIFY_CENTER);
+            $this->printer->text(str_pad('Qty', 10));
+
+
+            $this->printer->setJustification(Printer::JUSTIFY_RIGHT);
+            $this->printer->text(str_pad('Price', 10, ' ', STR_PAD_LEFT));
+            $this->printer->setEmphasis(false);
+            $this->feed();
+
+            $this->printer->setJustification(Printer::JUSTIFY_LEFT);
+            $this->printer->text( str_pad('----',  25) );
+
+            $this->printer->setJustification(Printer::JUSTIFY_CENTER);
+            $this->printer->text(str_pad('----', 10));
+
+
+            $this->printer->setJustification(Printer::JUSTIFY_RIGHT);
+            $this->printer->text(str_pad('------', 10, ' ', STR_PAD_LEFT));
+            $this->printer->setEmphasis(false);
+            $this->feed(2);
+
+            $this->printer->setJustification(Printer::JUSTIFY_LEFT);
+            $this->printer->selectPrintMode();
+            foreach($products as $name -> $data) {
+                
+                $this->printer->text(str_pad($name, 25));
+
+                // $this->printer->setJustification(Printer::JUSTIFY_CENTER);
+                $this->printer->text(str_pad($data['quantity'], 12));
+
+                $this->printer->setJustification(Printer::JUSTIFY_RIGHT);
+                // $total = (int)$i['price'] * (int) $i['quantity'];
+                $this->printer->text(str_pad( $data['price'], 6, ' ', STR_PAD_LEFT));       
+
+                $this->feed();         
+            }
+
+            $this->feed(2);
+            // Print subtotal
+            $this->printer->setEmphasis(true);
+            $this->printer->setJustification(Printer::JUSTIFY_CENTER);
+            
+            $this->printer->text(str_pad("Subtotal : ", 25)." ".str_pad($subtotal, 10, ' ', STR_PAD_LEFT));
+            // $this->printer->text();
+
+            // $this->printer->setEmphasis(false);
+            $this->printer->feed();
+            // Print tax
+            $this->printer->text(str_pad("Discount : ", 25)." ".str_pad($discount, 10, ' ', STR_PAD_LEFT));
+            // $this->printer->text();
+
+            $this->printer->feed(2);
+            // Print grand total
+            $this->printer->selectPrintMode(Printer::MODE_DOUBLE_WIDTH);
+            $this->printer->text(str_pad("TOTAL : ", 5));
+            $gt = (int) $subtotal - (int) $discount;
+
+            Log::debug("GT = ".(string)$gt);
+            $this->printer->text(str_pad((string) $gt, 1, ' ', STR_PAD_LEFT));
+            $this->printer->feed(3);
+            $this->printer->setEmphasis(false);
+            $this->printer->selectPrintMode();
+
+            $this->printer->setEmphasis(true);
+            $this->printer->text("Items Status\n");
+            // $this->printer->setEmphasis(false);
+
+            // printing quantities
+            $this->printer->setJustification(Printer::JUSTIFY_LEFT);
+            $this->printer->text( str_pad('Item Name',  25) );
+
+            $this->printer->setJustification(Printer::JUSTIFY_CENTER);
+            $this->printer->text(str_pad('Qty Remaining', 10));
+
+
+            $this->printer->setJustification(Printer::JUSTIFY_RIGHT);
+            $this->printer->text(str_pad('Warning', 10, ' ', STR_PAD_LEFT));
+            $this->printer->setEmphasis(false);
+            $this->feed();
+
+            $this->printer->setJustification(Printer::JUSTIFY_LEFT);
+            $this->printer->text( str_pad('-------',  25) );
+
+            $this->printer->setJustification(Printer::JUSTIFY_CENTER);
+            $this->printer->text(str_pad('----------', 10));
+
+
+            $this->printer->setJustification(Printer::JUSTIFY_RIGHT);
+            $this->printer->text(str_pad('------', 10, ' ', STR_PAD_LEFT));
+            $this->printer->setEmphasis(false);
+            $this->feed(2);
+
+            $this->printer->setJustification(Printer::JUSTIFY_LEFT);
+            $this->printer->selectPrintMode();
+            foreach($item as $i) {
+                
+                $this->printer->text(str_pad($i['name'], 25));
+
+                // $this->printer->setJustification(Printer::JUSTIFY_CENTER);
+                $this->printer->text(str_pad($i['qty'], 12));
+
+                $this->printer->setJustification(Printer::JUSTIFY_RIGHT);
+                // $total = (int)$i['price'] * (int) $i['quantity'];
+                $this->printer->text(str_pad( $i['warn'], 6, ' ', STR_PAD_LEFT));       
+
+                $this->feed();         
+            }
+
+            $this->feed(2);
+
+            $this->printer->setJustification(Printer::JUSTIFY_CENTER);
+            $this->printer->text("xxxxxxxxx <3 xxxxxxxxx");
+            $this->printer->feed();
+            // Print receipt date
+            $this->printer->text(date('j F Y H:i:s'));
+            $this->printer->feed(2);
+            // Cut the receipt
+            $this->printer->cut();
+            try {
+                $this->printer->close();
+            } catch (\Exception $e) {
+                return false;
+            }
+
+    }
+
     public function print() {
         // $profile = CapabilityProfile::load("simple");
         $connector = new WindowsPrintConnector("BlackC");

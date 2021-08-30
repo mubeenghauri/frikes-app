@@ -32,15 +32,38 @@
       @endif
   <div class="contentpanel">
     <div class="heading" style="margin-bottom: 30px;">
-      <div class="container" align="center">
-        <div class="col-md-4">
-          <!-- <select class="form-control" name="sales-date" id="sales-date" placeholder="Select Date"></select> -->
-          <h4> Gross Sales : <span id="gross-sales"> </span> </h4>
-        </div>  
-        <div class="col-md-4">
-            <select class="form-control" name="sales-date" id="sales-date" placeholder="Select Date"></select>
+      <div class="container-fluid" align="center">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Gross Total</div>
+                                <div class="panel-body" id="gross-sales">
+                                    Panel content
+                                </div>
+                            </div>
+                        </div>
+                    <!-- </div> -->
+                    <div class="col-md-4">
+                        <div class="panel panel-default">
+                            <div class="panel-heading">Total Discount</div>
+                                <div class="panel-body" id="discount">
+                                    discount
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>      
+                
+            <div class="col-md-4 mt-2">
+                <select class="form-control" name="sales-date" id="sales-date" placeholder="Select Date"></select>
+            </div>
+            <div class="col-md-4 mt-4">
+                <button class="btn btn-primary" onclick="getXreport()"> Generate X-Report for this date </button>
+            </div>
+            
         </div>
-        <button class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-lg"> Generate X-Report for this date </button>
       </div>
     </div>
     <div class="table-responsive mt-4">
@@ -61,71 +84,6 @@
         </table>
     </div><!-- table-responsive -->
 
-
-    <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog">
-  <div class="modal-dialog modal-lg">
-    <div class="modal-content">
-        <div class="modal-header">
-            <button aria-hidden="true" data-dismiss="modal" class="close" type="button">&times;</button>
-            <h4 class="modal-title">Add Product</h4>
-        </div>
-        <div class="modal-body">
-
-          <form class="form-inline" method="POST" action="{{ url('/products')}}">
-            @csrf
-            <div class="form-group">
-                <label class="sr-only" for="exampleInputEmail2">Product Name</label>
-                <input type="text" class="form-control"  name="productname" id="exampleInputEmail2" placeholder="Product Name">
-            </div><!-- form-group -->
-            
-            <div class="form-group">
-                <label class="sr-only" for="exampleInputPassword2">Price</label>
-                <input type="number" class="form-control" name="price" id="exampleInputPassword2" placeholder="Unit Price">
-            </div><!-- form-group -->
-            <div class="form-group">
-                <label class="sr-only" for="exampleInputPassword2">Category</label>
-                <select name="category" id="">
-                  <option value="main-course"> Main Course</option>
-                  <option value="soft-drinks"> Soft Drinks </option>
-                </select>  
-            </div><!-- form-group -->
-            <div class="form-group">
-                <label class="sr-only" >Items </label>
-
-               
-            </div><!-- form-group -->
-            <button type="submit" class="btn btn-primary mr5">Add</button>            
-          </form>
-        </div>
-        <div class="modal-footer">
-            {{-- <button type="submit" class="btn btn-secondry mr5">Update</button> --}}
-
-        </div>
-    </div>
-  </div>
-</div>
-
-    
-    <!-- 
-     -->
-            <!-- begin product items modal -->
-    <div id="products-modal" class="modal fade" tabindex="" role="dialog">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button aria-hidden="true" data-dismiss="modal" class="close" type="button">&times;</button>
-                    <h4 class="modal-title">Items</h4>
-                </div>
-                <div id="products-modal-body" class="modal-body">
-
-                    jey akldnakldnaskldnaskld
-                </div>
-                <div class="modal-footer">
-                    
-                </div>
-            </div>
-        </div>
-    </div>
 
   </div>
 
@@ -161,11 +119,14 @@ $('select').on('change', function () {
 });
 
 function updateTable(date) {
-    
+    let samount = 0;
+    let disc = 0;
     var data = sales[date];
     var table = $('#table')[0];
     table.innerHTML = "";
     data.forEach((d, i, _) => {
+        samount = samount + parseInt(d.total_amount);
+        disc = disc + parseInt(d.discount);
         var t = `<tr onclick="getProducts('${d.sale_id}')" > <td> ${i+1} </td>  <td> ${d.sale_id} </td> <td> ${d.total_amount} </td><td> ${d.discount} </td>`;
 
         if(d.deleted_at ==  null) {
@@ -181,6 +142,10 @@ function updateTable(date) {
 
         table.innerHTML += t;
     });
+    $('#gross-sales')[0].innerText = samount;
+    $('#discount')[0].innerText = disc;
+
+    console.log(samount);
 }
 
 function cancelSale(id) {
@@ -244,6 +209,29 @@ function getProducts(id) {
             $('#products-modal').modal('show');
         },
         dataType: 'json'
+    });
+}
+
+function getXreport() {
+    let date = $('select')[0].value;
+    console.log("getting xreport for date : "+date);
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+    $.ajax({
+        type: 'POST',
+        url: "{{ url('/sales/xreport') }}",
+        data: {'date': date},
+        success: () => {
+            toastr.success('Generating Report');
+            // window.location.reload(true);
+        },
+        error: function(XMLHttpRequest, textStatus, errorThrown) { 
+            toastr.warning("Unable to Print Report\nProbably Printer issue. ");
+        } 
+       
     });
 }
 

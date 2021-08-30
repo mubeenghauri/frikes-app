@@ -31,6 +31,6 @@ Route::get('/print', [RPrinter::class, 'print' ]);
 Route::get('/sales', [SalesController::class, 'index']);
 Route::post('/sales/cancel', [SalesController::class, 'cancelSale']);
 Route::get('/sales/products', [SalesController::class, 'products']);
-
 Route::post('/sales/cancel/undo', [SalesController::class, 'undoCancelSale']);
+Route::post('/sales/xreport', [SalesController::class, 'xreport']);
 Route::get('/products/items', [ProductController::class, 'getItems']);
