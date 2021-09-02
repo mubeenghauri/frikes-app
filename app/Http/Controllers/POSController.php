@@ -34,13 +34,6 @@ class POSController extends Controller
             $data['total'] = $total;
             $data['discount'] = $discount;
 
-
-            /**
-             * TODO send data to receipt printer
-             */
-
-
-
             $products = [];
     
             foreach ($items as $item) {
@@ -56,8 +49,6 @@ class POSController extends Controller
     
             Log::debug($products);
             
-
-
             $sid = Sales::getId();
 
             try{
@@ -70,9 +61,7 @@ class POSController extends Controller
                 if(env('APP_ENV' == 'production')) {
                     Log::debug("Printer error. sending error response");
                     return response("Printer Error", 500);
-
                 }
-
             }
 
             $sale = Sales::create([
