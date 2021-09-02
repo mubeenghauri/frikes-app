@@ -140,7 +140,7 @@ class RPrinter {
             $this->printer->text("Thank You, Have a nice day !");
             $this->printer->feed();
             // Print receipt date
-            $this->printer->text(date('j F Y H:i:s'));
+            $this->printer->text(date('j F Y h:i:s a'));
             $this->printer->feed(2);
             // Cut the receipt
             $this->printer->cut();
@@ -311,7 +311,7 @@ class RPrinter {
             $this->printer->text("xxxxxxxxx <3 xxxxxxxxx");
             $this->printer->feed();
             // Print receipt date
-            $this->printer->text(date('j F Y H:i:s'));
+            $this->printer->text(date('j F Y h:i:s a'));
             $this->printer->feed(2);
             // Cut the receipt
             $this->printer->cut();
