@@ -19,14 +19,14 @@ class SalesController extends Controller
     public function cancelSale(Request $request) {
         $id = $request->input('saleid');
         Log::debug("SalesController::cancelSale got id : $id");        
-        Sales::where("sale_id", $id)->delete();
+        Sales::cancel($id);
         return response('OK', 200);
     }
 
     public function undoCancelSale(Request $request) {
         $id = $request->input('saleid');
         Log::debug("SalesController::undoCancelSale got id : $id");        
-        Sales::where("sale_id", $id)->restore();
+        Sales::undoCancel($id);
         return response('OK', 200);
     }
 
@@ -45,7 +45,7 @@ class SalesController extends Controller
         $date = $request->input('date');
 
         $sales = Sales::where('date', $date)->get();
-        $d = $sales[0]->created_at->format('j F Y');
+
         $productsList = [];
         $total = 0;
         $discount = 0;
@@ -80,6 +80,6 @@ class SalesController extends Controller
         Log::debug($itemsList);
 
         $printer = new RPrinter();
-        $printer->xreport($productsList, $itemsList, $total, $discount, $d);
+        $printer->xreport($productsList, $itemsList, $total, $discount);
     }
 }

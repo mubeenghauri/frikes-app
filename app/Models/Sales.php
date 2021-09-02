@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+use App\Models\Product;
+
 use DB;
 use Log;
 class Sales extends Model
@@ -62,10 +64,13 @@ class Sales extends Model
                     'quantity' => $p['quantity'],
                     'price' => $p['price']
                 ]);
+
+            // decrement product items
+            Product::where('id', $p['id'])->get()->first()->decrementItems();
         }
     }
 
-    public static function revertSale(string $sid) {
+    public static function cancel(string $sid) {
         // when reverting sale
         // firstly, add the quantity of items back
         // decremented earlier while processing sale, 
@@ -78,6 +83,21 @@ class Sales extends Model
         }
         $sale->delete();
     }
+
+    public static function undoCancel(string $sid) {
+        // when undoing a canceled sale
+        // decrement the quantity of items back
+        // incremented earlier while canceling sale, 
+        // then restore  sale.
+        $sale = Sales::where('sale_id', $sid)->withTrashed()->get()->first();        
+        $products = $sale->products();
+
+        foreach ($products as $p) {
+            $p->decrementItems();
+        }
+        $sale->restore();
+    }
+    
 
     public static function deletedSales() {
         return Sales::onlyTrashed()->get();
