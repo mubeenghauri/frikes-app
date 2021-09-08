@@ -45,7 +45,7 @@ class SalesController extends Controller
         $date = $request->input('date');
 
         $sales = Sales::where('date', $date)->get();
-
+        $d = $sales[0]->created_at->format('j F Y');
         $productsList = [];
         $total = 0;
         $discount = 0;
@@ -80,6 +80,6 @@ class SalesController extends Controller
         Log::debug($itemsList);
 
         $printer = new RPrinter();
-        $printer->xreport($productsList, $itemsList, $total, $discount);
+        $printer->xreport($productsList, $itemsList, $total, $discount, $d);
     }
 }
