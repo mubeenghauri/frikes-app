@@ -83,10 +83,26 @@
             </tbody>    
         </table>
     </div><!-- table-responsive -->
-
-
   </div>
 
+    <!-- Begin Products Modal  -->
+    <div id="products-modal" class="modal fade" tabindex="" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button aria-hidden="true" data-dismiss="modal" class="close" type="button">&times;</button>
+                    <h4 class="modal-title">Items</h4>
+                </div>
+                <div id="products-modal-body" class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Products Modal -->
 
 @endsection 
     
