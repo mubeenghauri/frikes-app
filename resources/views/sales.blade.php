@@ -36,7 +36,7 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="row">
-                    <div class="col-md-4">
+                    {{-- <div class="col-md-4">
                         <div class="panel panel-default">
                             <div class="panel-heading">Gross Total</div>
                                 <div class="panel-body" id="gross-sales">
@@ -48,13 +48,13 @@
                     <div class="col-md-4">
                         <div class="panel panel-default">
                             <div class="panel-heading">Total Discount</div>
-                                <div class="panel-body" id="discount">
-                                    discount
-                                </div>
+                            <div class="panel-body" id="discount">
+                                discount
                             </div>
                         </div>
-                    </div>
-                </div>      
+                    </div> --}}
+                </div>
+            </div>      
                 
             <div class="col-md-4 mt-2">
                 <select class="form-control" name="sales-date" id="sales-date" placeholder="Select Date"></select>
@@ -159,8 +159,8 @@ function updateTable(date) {
 
         table.innerHTML += t;
     });
-    $('#gross-sales')[0].innerText = samount;
-    $('#discount')[0].innerText = disc;
+    // $('#gross-sales')[0].innerText = samount;
+    // $('#discount')[0].innerText = disc;
 
     console.log(samount);
 }
