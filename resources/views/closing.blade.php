@@ -53,20 +53,28 @@ input[type="text"] {
             <div class="row">
                 <div class="col-md-4">
                      <div class="row">
-                       <div class="col-md-1">
-                        </div>
                         <!-- </div> -->
-                        <div class="col-md-10">
+                        <div class="col-md-5">
                             {{-- <div> --}}
-                                <button class="btn btn-primary" onclick=""> Close Day </button>
+                                <button id="closing-button" class="btn btn-primary" onclick="closeDay()"> Close Day </button>
                             {{-- </div> --}}
+                        </div>
+                        <div class="col-md-6" >
+                            <div id="close-date-group">
+                                <label for="closedate"> Close Date </label>
+                                <input type="date" name="closedate" id="closedate" placeholder="Close Date">
+                            </div>
+                            <button id="update-closed-button" style="display: none;" class="btn btn-dark" onclick="updateClosed()"> Update Closed Record </button>
                         </div>
                     </div>      
                 </div>
                     
                 <div class="col-md-4 mt-2">
                     <select class="form-control" name="sales-date" id="sales-date" placeholder="Select Date">
-                        <option value="">Today </option>
+                        <option value="today">Today </option>
+                        @foreach ($closingdates as $c)
+                            <option value="{{ $c->date }}"> {{ $c->date }} </option>
+                        @endforeach
                     </select>
                 </div>
                 <div class="col-md-4 mt-4">
@@ -159,6 +167,45 @@ input[type="text"] {
 
 @section('js')
 <script>
+
+    var loadeddata = {};
+
+    $('select').on('change', function () {
+        // alert(this.value);
+        updateData(this.value);
+        console.log(loadeddata);
+        this.value == 'today' ? showclose() : hideclose();
+    });
+    
+    function showclose() {
+        $('#closing-button').prop('disabled', false);
+        $('#closing-button').text('Close Day');
+        $('#close-date-group').show();
+    }
+    
+    function hideclose() {
+        $('#closing-button').prop('disabled', true);
+        $('#closing-button').text('Closed');
+        $('#close-date-group').hide();
+    }
+
+    function updateData(date) {
+        if(date in loadeddata) {
+            let pc = loadeddata[date].products;
+            let t = loadeddata[date].total;
+            let d = loadeddata[date].discount;
+
+            setAllVals(pc, t, d);
+
+        } else {
+            if (date == 'today') {
+                getTodays();
+            } else {
+                getClosed(date);
+            }
+        }
+    }
+
     function getTodays() {
         $.ajaxSetup({
         headers: {
@@ -204,21 +251,64 @@ input[type="text"] {
                 console.log(total);
                 console.log(discounts);
 
+
+                setLoadedData('today', productsQuantity, total, discounts);
                 setAllVals(productsQuantity, total, discounts);
+
             },
             dataType: 'json'
         });
     }
 
+    function getClosed(date) {
+        $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // localstorage.get('token')
+        }
+        });
+        $.ajax({
+            type: 'GET',
+            url: "{{ url('/closing/closed') }}",
+            data: {'date': date},
+            success: (response) => {
+                console.log(response);
+
+                let productsQuantity = JSON.parse(response.products);
+                let total = response.total_sales;
+                let discounts = response.total_discount;
+
+                
+               
+                console.log(productsQuantity);
+                console.log(total);
+                console.log(discounts);
+
+
+                setLoadedData(date, productsQuantity, total, discounts);
+                setAllVals(productsQuantity, total, discounts);
+
+            },
+            dataType: 'json'
+        });
+    }
+
+    function setLoadedData(date, productsCount, total, discount ) {
+        loadeddata[date] = {
+            'products': productsCount,
+            'total' : total,
+            'discount' : discount
+        }
+    }
     
     function setAllVals(productsCount, total, discount) {
         let table = $('#table')[0];
         table.innerHTML = '';
         let i = 1;
         Object.keys(productsCount).forEach(pname => {
+            // var name = 
             let tr = `<tr> <td>${i}</td>
                             <td>${pname}</td>
-                            <td> <input class="products-quantity input-none"  type="text" value="${productsCount[pname]}" disabled>  </td>
+                            <td> <input class="products-quantity input-none" name="${pname}" type="text" value="${productsCount[pname]}" disabled>  </td>
                         </tr>`;
             table.innerHTML += tr;
             i += 1;
@@ -227,6 +317,120 @@ input[type="text"] {
         $('#total-discounts').val(discount);
     }
 
+
+
+    function closeDay() {
+        console.log('closing');
+        let prodsObj = {};
+        let prods = $(".products-quantity");
+        let total = $('#total-sales').val()
+        let discount =   $('#total-discounts').val();
+        let closedate = $('#closedate').val();
+
+        if (closedate === '') {
+            toastr.warning("Please provide a valid date for closing");
+            return;
+        }
+
+        if (total == '0') {
+            toastr.warning('Nothing to Close !!! Make some sales !!');
+            return;
+        }
+
+        for (let i = 0; i < prods.length; i++) {
+            prodsObj[prods[i].name] = prods[i].value;
+        }
+
+        let closePayload = {
+            'date' : closedate,
+            'total-sales': total,
+            'total-discounts': discount,
+            'products': prodsObj
+        }
+
+        console.log(closePayload);
+
+        $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // localstorage.get('token')
+        }
+        });
+
+        $.ajax({
+            type: 'POST',
+            url: "{{ url('/closing/close') }}",
+            data: {'data' : JSON.stringify(closePayload)},
+            success: () => {
+                toastr.success('Closed Successfully');
+                // window.location.reload(true);
+                window.location.reload();
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) { 
+                toastr.warning(`Error : ${textStatus}, ${errorThrown}`);
+            } 
+        
+        });
+    }
+
+    function updateClosed() {
+        console.log('updating closed');
+        let prodsObj = {};
+        let prods = $(".products-quantity");
+        let total = $('#total-sales').val()
+        let discount =   $('#total-discounts').val();
+        let closedate = $('#closedate').val();
+
+        if (closedate === '') {
+            toastr.warning("Please provide a valid date for closing");
+            return;
+        }
+
+        if (total == '0') {
+            toastr.warning('Nothing to Close !!! Make some sales !!');
+            return;
+        }
+
+        for (let i = 0; i < prods.length; i++) {
+            prodsObj[prods[i].name] = prods[i].value;
+        }
+
+        let closePayload = {
+            'date' : closedate,
+            'total-sales': total,
+            'total-discounts': discount,
+            'products': prodsObj
+        }
+
+        console.log(closePayload);
+
+        $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // localstorage.get('token')
+        }
+        });
+
+        $.ajax({
+            type: 'POST',
+            url: "{{ url('/closing/close') }}",
+            data: {'data' : JSON.stringify(closePayload)},
+            success: () => {
+                toastr.success('Closed Successfully');
+                // window.location.reload(true);
+                window.location.reload();
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) { 
+                toastr.warning(`Error : ${textStatus}, ${errorThrown}`);
+            } 
+        
+        });
+    }
+
+    function showUpdateButton() {
+        if( $('select').val() != 'today' ) {
+            $('#update-closed-button').show();
+        }
+    }
+    
     function enableEditQuantity() {
         $('.products-quantity').prop('disabled', false);
         $('.products-quantity').removeClass('input-none');
@@ -239,6 +443,7 @@ input[type="text"] {
         $('.products-quantity').addClass('input-none');
         $('#update-products-button').show();
         $('#save-products').hide();
+        showUpdateButton()
     }
 
     function enableEditTotal() {
@@ -253,6 +458,7 @@ input[type="text"] {
         $('#total-sales').addClass('input-none');
         $('#update-total').show();
         $('#save-total').hide();
+        showUpdateButton()
     }
 
     function enableEditDiscount() {
@@ -267,6 +473,7 @@ input[type="text"] {
         $('#total-discounts').addClass('input-none');
         $('#update-discount').show();
         $('#save-discount').hide();
+        showUpdateButton()
     }
     getTodays();    
 </script>
