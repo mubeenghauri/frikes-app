@@ -35,7 +35,7 @@ class Sales extends Model
      * 
      * @var array
      */
-    protected $fillable = ['sale_id', 'total_amount', 'discount', 'date'];
+    protected $fillable = ['sale_id', 'total_amount', 'discount', 'date', 'closing_id'];
 
     /**
      * Prefix to be used for sales id

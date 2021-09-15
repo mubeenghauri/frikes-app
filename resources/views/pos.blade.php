@@ -215,6 +215,7 @@
 </head>
 <body>
 
+
 		<!-- Navbar -->
 	  <nav class="navbar navbar-expand-lg  bg-warning">
 	    <!-- <div class="container-fluid text-center"> -->
@@ -222,7 +223,7 @@
 			<img class="" style="margin-left: 10px; fill:white;"  src="css/icons/solid/home.svg" width="35" alt="home page">
 		</a>
 		<!-- </div> -->
-		<h2 class="c-nav bold" style="font-weight: bold;align-content: center; margin-left: 47%; color: white; clear: both;">Frikes</h2>
+		<h2 class="navbar-text bold" style="font-weight: bold;align-content: center; margin-left: 47%; color: white; clear: both;">Frikes</h2>
 		<!-- <div class="container-fluid navs" >
 			<div class="row" style="margin-left: 200px;">
 				<div class="col-md-6 form" >
@@ -236,6 +237,27 @@
 				</div>
 			</div>
 		</div> -->
+
+		<!-- Collapsible wrapper -->
+		<div class="collapse navbar-collapse" id="navbarButtonsExample">
+			<!-- Left links -->
+			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+			<li class="nav-item">
+				{{-- <a class="nav-link" href="#">Dashboard</a> --}}
+			</li>
+			</ul>
+			<!-- Left links -->
+	
+			<div class="d-flex align-items-center" style="margin-right: 20px;" >
+				<input type="text" id="sales-id">
+				{{-- <button onclick="showModal()" > --}}
+				<img  class="" onclick="cancelSale()" style="margin-left: 10px; fill:white;"  src="css/icons/trash-white.svg" width="35" alt="home page">
+				{{-- </button>		 --}}
+			</div>
+		</div>
+		<!-- Collapsible wrapper -->
+		{{-- </div> --}}
+	  
 	  </nav>
 
 
@@ -348,29 +370,44 @@
 	  	</div> <!-- End container -->
 	  </div> <!-- End main -->
             <!-- begin product items modal -->
-            <div id="cancel-order-modal" class="modal fade cancel-order" tabindex="" role="dialog">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button aria-hidden="true" data-dismiss="modal" class="close" type="button">&times;</button>
-                            <h4 class="modal-title">Items</h4>
-                        </div>
-                        <div id="items-modal-body" class="modal-body">
 
-                            <form class="form" action="">
-								<label class="form-input" for=""> </label>
-								<select class="form-input" name="" id=""></select>
-						
-							</form>
-                        </div>
-                        <div class="modal-footer">
-							<button class="btn btn-primary"> Cancel Order </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-	  <script type="text/javascript">
+			
+
+	<script type="text/javascript">
 	  	// window.print();
+
+		function showModal() {
+			$('#pos-modal').click();
+		}
+
+		function cancelSale() {
+			let id = $('#sales-id').val();
+			if(id == '' ) {
+				toastr.warning("Provide valid sale id");
+				return;
+			}
+			console.log("Canceling sale id: "+id);
+			$.ajaxSetup({
+				headers: {
+					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+				}
+			});
+			$.ajax({
+				type: 'POST',
+				url: "{{ url('/sales/cancel') }}",
+				data: {'saleid': id},
+				success: () => {
+					// window.location.reload(true);
+					toastr.success("Done, cancelled sale");
+					$("#sales-id").val('');
+				},
+				error: () => {
+					toastr.warning("sale does not exists");
+					$("#sales-id").val('');
+
+				}
+			});
+		}
 
 	  	function addOrder(e) {
 			var itemName = e.children[0].children[0].children[0].innerHTML;
@@ -538,9 +575,9 @@
 			xhr.send(JSON.stringify(orderdata));
 		}
 
-		function showModal() {
-			$("#cancel-order-modal").modal('show');
-		}
+		// function showModal() {
+		// 	$("#cancel-order-modal").modal('show');
+		// }
 	  </script>
 </body>
 </html>

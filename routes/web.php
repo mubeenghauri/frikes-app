@@ -5,7 +5,8 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\POSController;
 use App\Http\Controllers\SalesController;
-
+use App\Http\Controllers\ClosingController;
+use App\Models\Closing;
 use App\RPrinter;
 /*
 |--------------------------------------------------------------------------
@@ -34,3 +35,8 @@ Route::get('/sales/products', [SalesController::class, 'products']);
 Route::post('/sales/cancel/undo', [SalesController::class, 'undoCancelSale']);
 Route::post('/sales/xreport', [SalesController::class, 'xreport']);
 Route::get('/products/items', [ProductController::class, 'getItems']);
+Route::get('/closing', [ClosingController::class, 'index']);
+Route::get('/closing/unclosed', [ClosingController::class, 'unclosed']);
+Route::get('/closing/closed', [ClosingController::class, 'closed']);
+Route::post('/closing/close', [ClosingController::class, 'close']);
+Route::post('/closing/update', [ClosingController::class, 'update']);

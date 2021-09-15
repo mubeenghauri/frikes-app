@@ -113,27 +113,25 @@
                 </div>
             </div>
         </div>
-            <!-- begin product items modal -->
-            <div id="items-modal" class="modal fade" tabindex="" role="dialog">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button aria-hidden="true" data-dismiss="modal" class="close" type="button">&times;</button>
-                            <h4 class="modal-title">Items</h4>
-                        </div>
-                        <div id="items-modal-body" class="modal-body">
+        <!-- begin product items modal -->
+        <div id="items-modal" class="modal fade" tabindex="" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button aria-hidden="true" data-dismiss="modal" class="close" type="button">&times;</button>
+                        <h4 class="modal-title">Items</h4>
+                    </div>
+                    <div id="items-modal-body" class="modal-body">
 
-                            jey akldnakldnaskldnaskld
-                        </div>
-                        <div class="modal-footer">
-                            
-                        </div>
+                        jey akldnakldnaskldnaskld
+                    </div>
+                    <div class="modal-footer">
+                        
                     </div>
                 </div>
             </div>
-            <!-- End product items modal -->
-
-        
+        </div>
+        <!-- End product items modal -->     
     </div>
 </div>
     @endsection

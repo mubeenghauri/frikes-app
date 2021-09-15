@@ -72,7 +72,7 @@ class POSController extends Controller
             ]);
     
             Sales::addProducts($products, $sid);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             Log::warning('[POSController] [processOrder] Error occoured : ', (array) $e);
             return response()->json(["status" => "failure"])->status(500);
         }
