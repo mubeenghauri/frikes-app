@@ -55,13 +55,13 @@ class Product extends Model
      * Decrement quantity for items
      * associated with this product
      */
-    public function decrementItems() {
+    public function decrementItems($quan) {
         $items = $this->items();
         
         foreach ($items as $item) {
             $itemid = $item->pivot->item_id;
             $unit_consumed = (float) $item->pivot->unit_consumed;
-            $r = Item::where('id', $itemid)->decrement('quantity', $unit_consumed);
+            $r = Item::where('id', $itemid)->decrement('quantity', $unit_consumed * $quan);
         }
         return true;
     }
@@ -70,13 +70,13 @@ class Product extends Model
      * Increement quantity for items
      * associated with this product
      */
-    public function incrementItems() {
+    public function incrementItems($quan) {
         $items = $this->items();
         
         foreach ($items as $item) {
             $itemid = $item->pivot->item_id;
             $unit_consumed = (float) $item->pivot->unit_consumed;
-            $r = Item::where('id', $itemid)->increment('quantity', $unit_consumed);
+            $r = Item::where('id', $itemid)->increment('quantity', $unit_consumed * $quan);
 
         }
         return true;

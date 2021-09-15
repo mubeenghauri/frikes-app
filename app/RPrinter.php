@@ -10,6 +10,8 @@ use Log;
 class RPrinter {
 
     function __construct() {
+        date_default_timezone_set("Asia/Karachi");
+
         $this->connected = true;
         try {
             $connector = new WindowsPrintConnector("BlackC");
@@ -144,7 +146,8 @@ class RPrinter {
             $this->printer->feed(2);
             // Cut the receipt
             $this->printer->cut();
-            try {
+            $this->printer->pulse()
+;            try {
                 $this->printer->close();
             } catch (\Exception $e) {
                 return false;
