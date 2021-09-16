@@ -380,10 +380,6 @@ input[type="text"] {
         let discount =   $('#total-discounts').val();
         let closedate = $('#closedate').val();
 
-        if (closedate === '') {
-            toastr.warning("Please provide a valid date for closing");
-            return;
-        }
 
         if (total == '0') {
             toastr.warning('Nothing to Close !!! Make some sales !!');
@@ -411,7 +407,7 @@ input[type="text"] {
 
         $.ajax({
             type: 'POST',
-            url: "{{ url('/closing/close') }}",
+            url: "{{ url('/closing/update') }}",
             data: {'data' : JSON.stringify(closePayload)},
             success: () => {
                 toastr.success('Closed Successfully');
