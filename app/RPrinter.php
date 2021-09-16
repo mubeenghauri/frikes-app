@@ -33,7 +33,8 @@ class RPrinter {
             $items = $data['items'];
             $subtotal = $data['total'];
             $discount = $data['discount'];
-            Log::debug($data);
+            $discountP = $data['discount_per'];
+            Log::debug("[RPRINTER] Got Data : ", $data);
             Log::debug($subtotal);
             if(!$this->connected) {
                 return false;
@@ -121,7 +122,7 @@ class RPrinter {
             // $this->printer->setEmphasis(false);
             $this->printer->feed();
             // Print tax
-            $this->printer->text(str_pad("Discount : ", 25)." ".str_pad($discount, 10, ' ', STR_PAD_LEFT));
+            $this->printer->text(str_pad("Discount % : ", 25)." ".str_pad($discountP, 10, ' ', STR_PAD_LEFT));
             // $this->printer->text();
 
             $this->printer->feed(2);

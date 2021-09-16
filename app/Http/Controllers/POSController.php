@@ -33,6 +33,7 @@ class POSController extends Controller
             $data['items'] = $items;
             $data['total'] = $total;
             $data['discount'] = $discount;
+            $data['discount_per'] = $request->input('discount_percent');
 
             $products = [];
     
