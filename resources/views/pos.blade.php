@@ -350,16 +350,36 @@
 								</div>
 							</div>
 						</div>
-							<div class="container">
+						<div class="container">
 							<div class="row">
 								<div class="col-md-6">
 									<!-- <button type="button" onclick="confirm()" class="btn btn-warning">Confirm !</button> -->
 								</div>
-								<div class="col-md-6" style="width: 100px; margin-top:30px;">
+								<div class="col-md-6" style=" margin-top:30px;" >
 									<div class="omrs-input-group">
 										<label class="omrs-input-underlined">
-											Discount
-										<input id="discount" placeholder="discount" value=0 required style="height: 50px; font-size: 40px;">
+											<h5>Discount %</h5>
+											<input id="discount" type="number" placeholder="Discount"  required style="height: 50px; font-size: 40px;">
+										</label>
+									</div>
+								</div>
+							</div>
+							<div class="row" style=" margin-top:30px;">
+								<div class="col-md-6" >
+									<!-- <button type="button" onclick="confirm()" class="btn btn-warning">Confirm !</button> -->
+									<div class="omrs-input-group" style=" padding-top: 20px;width: 70px;">
+										{{-- <label class="omrs-input-underlined">
+												Amount Recieved
+										</label> --}}
+										<h1 id="return-amount"></h1>
+									</div>
+								</div>
+								<div class="col-md-6" >
+									<div class="omrs-input-group">
+										<label class="omrs-input-underlined">
+											Amount Recieved
+											<input id="recieved" type="number" placeholder="Recieved"  required style="height: 50px; font-size: 40px;">
+										</label>
 									</div>
 								</div>
 							</div>
@@ -375,6 +395,39 @@
 
 	<script type="text/javascript">
 	  	// window.print();
+
+		function getDiscountAmount() {
+			let discper = parseFloat( $("#discount").val());
+			let total = parseInt( $("#total-amount").text());
+			let amntDisc = parseInt((discper * total)/100);
+			let newTotal = total - amntDisc;
+			console.log(`Amnt : ${total} disc% ${discper} discAmnd ${amntDisc} newtotal ${newTotal}`);
+			return [amntDisc, newTotal];
+		}
+
+		function resetUpdateAndDiscount() {
+			$("#recieved").val(0);
+			$("#discount").val(0);
+			$('#return-amount').text('');
+		}
+
+		$("#recieved").on( 'input', (e) => {
+			let rec = parseInt($("#recieved").val());
+			let total = parseInt( $("#total-amount").text());
+			
+			let disc = parseInt( $("#discount").val());
+
+			console.log(rec);
+			console.log(total);
+
+			let ret= rec - total;
+
+			if(disc > 0) {
+				ret += getDiscountAmount()[0];
+			}
+			console.log( disc);
+			$('#return-amount').text(ret);
+		});
 
 		function showModal() {
 			$('#pos-modal').click();
@@ -530,7 +583,9 @@
 				orderdata['items'].push(orderitem);
 			}
 			orderdata['total'] = getTotal();
-			orderdata['discount'] = getDiscount(); 
+			orderdata['discount'] = getDiscountAmount()[0]; 
+			orderdata['discount_percent'] = getDiscount();
+			orderdata['new_amnt'] = getDiscount();
 			console.log(orderdata);
 			discard();
 			submitOrder(orderdata);
