@@ -29,11 +29,11 @@ class POSController extends Controller
 
             $items = $request->input('items');
             $total = $request->input('total');
-            $discount = $request->input('discount');
+            $discount = $request->input('discount') == null ?  0 : $request->input('discount');
             $data['items'] = $items;
             $data['total'] = $total;
             $data['discount'] = $discount;
-            $data['discount_per'] = $request->input('discount_percent');
+            $data['discount_per'] = $request->input('discount_percent') == null ? 0 : $request->input('discount_percent');
 
             $products = [];
     
