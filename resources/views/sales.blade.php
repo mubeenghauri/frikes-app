@@ -60,7 +60,7 @@
                 <select class="form-control" name="sales-date" id="sales-date" placeholder="Select Date"></select>
             </div>
             <div class="col-md-4 mt-4">
-                <button class="btn btn-primary" onclick="getXreport()"> Generate X-Report for this date </button>
+                {{-- <button class="btn btn-primary" onclick="getXreport()"> Generate X-Report for this date </button> --}}
             </div>
             
         </div>

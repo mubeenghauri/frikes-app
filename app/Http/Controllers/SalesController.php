@@ -43,7 +43,7 @@ class SalesController extends Controller
 
     public function xreport(Request $request) {
         $date = $request->input('date');
-
+        Log::debug("[XREPORT] Getting report for date : $date");
         $sales = Sales::where('date', $date)->get();
         $d = $sales[0]->created_at->format('j F Y');
         $productsList = [];

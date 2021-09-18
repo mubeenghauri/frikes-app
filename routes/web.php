@@ -40,3 +40,4 @@ Route::get('/closing/unclosed', [ClosingController::class, 'unclosed']);
 Route::get('/closing/closed', [ClosingController::class, 'closed']);
 Route::post('/closing/close', [ClosingController::class, 'close']);
 Route::post('/closing/update', [ClosingController::class, 'update']);
+Route::post('/closing/xreport', [ClosingController::class, 'xreport']);
