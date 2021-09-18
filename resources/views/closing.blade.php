@@ -78,7 +78,7 @@ input[type="text"] {
                     </select>
                 </div>
                 <div class="col-md-4 mt-4">
-                    <button class="btn btn-primary" onclick="getXreport()"> Generate X-Report for this date </button>
+                    <button class="btn btn-primary" onclick="xreport()"> Generate X-Report for this date </button>
                 </div>
         </div>
         
@@ -372,13 +372,66 @@ input[type="text"] {
         });
     }
 
+    function xreport() {
+        console.log('closing');
+        let prodsObj = {};
+        let prods = $(".products-quantity");
+        let total = $('#total-sales').val()
+        let discount =   $('#total-discounts').val();
+        let closedate = $('#sales-date')[0].value;
+
+        if (closedate === 'today' || closedate === '') {
+            toastr.warning("Please provide a valid date to put into the report");
+            return;
+        }
+
+        if (total == '0') {
+            toastr.warning('Nothing to add into report !!! Make some sales !!');
+            return;
+        }
+
+        for (let i = 0; i < prods.length; i++) {
+            prodsObj[prods[i].name] = prods[i].value;
+        }
+
+        let closePayload = {
+            'date' : closedate,
+            'total-sales': total,
+            'total-discounts': discount,
+            'products': prodsObj
+        }
+
+        console.log(closePayload);
+
+        $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') // localstorage.get('token')
+        }
+        });
+
+        $.ajax({
+            type: 'POST',
+            url: "{{ url('/closing/xreport') }}",
+            data: {'data' : JSON.stringify(closePayload)},
+            success: () => {
+                toastr.success('Closed Successfully');
+                // window.location.reload(true);
+                window.location.reload();
+            },
+            error: function(XMLHttpRequest, textStatus, errorThrown) { 
+                toastr.warning(`Error : ${textStatus}, ${errorThrown}`);
+            } 
+        
+        });
+    }
+
     function updateClosed() {
         console.log('updating closed');
         let prodsObj = {};
         let prods = $(".products-quantity");
         let total = $('#total-sales').val()
         let discount =   $('#total-discounts').val();
-        let closedate = $('#closedate').val();
+        let closedate = $('#sales-date')[0].value;
 
 
         if (total == '0') {

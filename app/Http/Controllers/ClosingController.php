@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\RPrinter;
 use App\Models\Closing;
+use App\Models\Item;
+use App\Models\Product;
 use Log;
 
 class ClosingController extends Controller
@@ -28,7 +31,9 @@ class ClosingController extends Controller
         $date = $all['date'];
         $totalSales = $all['total-sales'];
         $discounts = $all['total-discounts'];
-        $products = (array) $all['products'];
+        $products = json_encode($all['products']);
+
+        Log::debug("[Closing::update] $date $totalSales $discounts $products");
         Closing::where('date', $date)
                 ->update([ 
                     'total_sales' => $totalSales,
@@ -60,5 +65,43 @@ class ClosingController extends Controller
         $products = (array) $all['products'];
         Closing::closeUnclosed($date, $totalSales, $discounts, json_encode($products));
         return response('okay')->status(200);
+    }
+
+    public function xreport(Request $request) {
+        $all = json_decode($request->input('data'), true);
+        Log::debug("[ClosingController::xreport] got request  ", (array) $all);
+        $date = $all['date'];
+        $totalSales = $all['total-sales'];
+        $discounts = $all['total-discounts'];
+        $products = (array) $all['products'];
+
+        $productList = [];
+        Log::debug("[ClosingController::xreport] extracted produts ", $products);
+        foreach ($products as $key => $value) {
+            Log::debug("[ClosingController::xreport] $key => $value");
+            $p = Product::where('name', $key)->get()->first()->price;
+            $productList[$key] = [
+                'quantity' => $value,
+                'price' => $p
+            ];
+        }
+
+        Log::debug("[ClosingController::xreport] Procuts list => ", $productList);
+
+        $items = Item::all();
+
+        $itemsList = [];
+
+        foreach ($items as $i) {
+            $itemsList[] = [
+                'name' => $i->name,
+                'qty' => $i->quantity,
+                'warn' => $i->warning_quantity
+            ];
+        }
+
+        Log::debug($itemsList);
+        $printer = new RPrinter();
+        $printer->xreport($productList, $itemsList, $totalSales, $discounts, $date);
     }
 }
