@@ -16,7 +16,7 @@ class RPrinter {
         try {
             $connector = new WindowsPrintConnector("BlackC");
             $this->printer = new Printer($connector);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             Log::debug("[RPrinter] Unable to initiate connection to printer.");
             $this->connected = false;
             return false;
@@ -347,7 +347,7 @@ class RPrinter {
             $printer->cut();
             $printer->close();
             echo "Closed";            
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             echo "error";
             print_r($e);
         } finally {
@@ -393,7 +393,7 @@ class RPrinter {
         ];
 
         // Init printer
-        $printer = new ReceiptPrinter;
+        $printer = new \ReceiptPrinter;
         $printer->init(
             config('receiptprinter.connector_type'),
             config('receiptprinter.connector_descriptor')
