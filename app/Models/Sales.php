@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Models\Product;
-
+use Carbon\Carbon;
 use DB;
 use Log;
 class Sales extends Model
@@ -43,6 +43,10 @@ class Sales extends Model
      * @var string
      */
     public static $salesIdPrefix = "S-";
+    protected $casts = [
+        'created_at' => 'datetime:d-M-Y H:i:s', // Change your format
+        'updated_at' => 'datetime:d/m/Y',
+    ];
 
     public static function getId() {
         $salecount = Sales::withTrashed()->get()->count()+1;

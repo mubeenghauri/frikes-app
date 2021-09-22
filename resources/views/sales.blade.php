@@ -74,7 +74,9 @@
                 <th>Sales Id</th>
                 <th>Total</th>
                 <th>Discount</th>
+                <th>CreatedAt</th>
                 <th>Status</th>
+                <th>Closing Id</th>
                 <th>Action</th>
               </tr>
 
@@ -134,6 +136,16 @@ $('select').on('change', function () {
     updateTable(this.value);
 });
 
+function getDateTimeFromString(str) {
+    const monthNames = ["January", "February", "March", "April", "May", "June",
+      "July", "August", "September", "October", "November", "December"
+    ];
+    let d = new Date(str);
+    var datestring = d.getDate()  + "-" + monthNames[(d.getMonth())] + "-" + d.getFullYear() + " " + d.getHours() + ":" + d.getMinutes();
+
+    return datestring;
+}
+
 function updateTable(date) {
     let samount = 0;
     let disc = 0;
@@ -142,12 +154,21 @@ function updateTable(date) {
     table.innerHTML = "";
     data.forEach((d, i, _) => {
         
-        var t = `<tr onclick="getProducts('${d.sale_id}')" > <td> ${i+1} </td>  <td> ${d.sale_id} </td> <td> ${d.total_amount} </td><td> ${d.discount} </td>`;
+        var t = `<tr onclick="getProducts('${d.sale_id}')" > <td> ${i+1} </td>  <td> ${d.sale_id} </td> <td> ${d.total_amount} </td><td> ${d.discount} </td> <td> ${d.created_at} </td>`;
 
         if(d.deleted_at ==  null) {
             samount = samount + parseInt(d.total_amount);
             disc = disc + parseInt(d.discount);
             t += ` <td style="color:green"> Clear  </td> `;
+
+            //check for closing id.
+
+            if(d.closing_id != null) {
+                t += ` <td style="color:green"> Closed-${d.closing_id}  </td> `;
+            } else {
+                t += ` <td style="color:yellow"> Not Closed  </td> `;
+            }
+
             t += ` <td> <img onclick="cancelSale('${d.sale_id}')" src="css/icons/trash.svg" alt="cancel sale">  </td> `;
         } else {
             t += ` <td style="color:red"> Cancelled  </td> `;
