@@ -14,7 +14,7 @@ class RPrinter {
         try {
             $connector = new WindowsPrintConnector("BlackC");
             $this->printer = new Printer($connector);
-        } catch (Exception $e) {
+        } catch (\Error $e) {
             Log::debug("[RPrinter] Unable to initiate connection to printer.");
             $this->connected = false;
             return false;
