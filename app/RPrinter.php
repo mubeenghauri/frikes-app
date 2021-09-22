@@ -10,6 +10,8 @@ use Log;
 class RPrinter {
 
     function __construct() {
+        date_default_timezone_set("Asia/Karachi");
+
         $this->connected = true;
         try {
             $connector = new WindowsPrintConnector("BlackC");
@@ -33,7 +35,8 @@ class RPrinter {
             $items = $data['items'];
             $subtotal = $data['total'];
             $discount = $data['discount'];
-            Log::debug($data);
+            $discountP = $data['discount_per'];
+            Log::debug("[RPRINTER] Got Data : ", $data);
             Log::debug($subtotal);
             if(!$this->connected) {
                 return false;
@@ -121,7 +124,7 @@ class RPrinter {
             // $this->printer->setEmphasis(false);
             $this->printer->feed();
             // Print tax
-            $this->printer->text(str_pad("Discount : ", 25)." ".str_pad($discount, 10, ' ', STR_PAD_LEFT));
+            $this->printer->text(str_pad("Discount % : ", 25)." ".str_pad($discountP, 10, ' ', STR_PAD_LEFT));
             // $this->printer->text();
 
             $this->printer->feed(2);
@@ -144,7 +147,8 @@ class RPrinter {
             $this->printer->feed(2);
             // Cut the receipt
             $this->printer->cut();
-            try {
+            $this->printer->pulse()
+;            try {
                 $this->printer->close();
             } catch (\Exception $e) {
                 return false;
@@ -343,7 +347,7 @@ class RPrinter {
             $printer->cut();
             $printer->close();
             echo "Closed";            
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             echo "error";
             print_r($e);
         } finally {
@@ -389,7 +393,7 @@ class RPrinter {
         ];
 
         // Init printer
-        $printer = new ReceiptPrinter;
+        $printer = new \ReceiptPrinter;
         $printer->init(
             config('receiptprinter.connector_type'),
             config('receiptprinter.connector_descriptor')

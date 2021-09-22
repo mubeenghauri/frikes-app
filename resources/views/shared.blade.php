@@ -68,7 +68,7 @@
                         <li ><a href="{{ url('/') }}"><i class="fa fa-home"></i> <span>Dashboard</span></a></li>
                         <li><a href="{{ url('/item') }}"><span class="pull-right badge"></span><i class="fa fa-envelope-o"></i> <span>Items</span></a></li>
                         <li ><a href="{{ url('/products') }}"><i class="fa fa-suitcase"></i> <span>Products</span></a></li>
-                        <li ><a href=""><i class="fa fa-edit"></i> <span>Closing (coming soon) </span></a>
+                        <li ><a href="{{ url('/closing') }}"><i class="fa fa-edit"></i> <span>Closing </span></a>
                         </li>
                         <!-- <li ><a href="{{ url('/pos') }}"><i class="fa fa-bars"></i> <span>POS - DEMO - static</span></a> -->
                         <li ><a href="{{ url('/pos-dev') }}"><i class="fa fa-bars"></i> <span>POS </span></a>

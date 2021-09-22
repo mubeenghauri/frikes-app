@@ -35,7 +35,7 @@ class Sales extends Model
      * 
      * @var array
      */
-    protected $fillable = ['sale_id', 'total_amount', 'discount', 'date'];
+    protected $fillable = ['sale_id', 'total_amount', 'discount', 'date', 'closing_id'];
 
     /**
      * Prefix to be used for sales id
@@ -66,7 +66,8 @@ class Sales extends Model
                 ]);
 
             // decrement product items
-            Product::where('id', $p['id'])->get()->first()->decrementItems();
+            Log::debug('Got Product with id : ',$p);
+            Product::where('id', $p['id'])->get()->first()->decrementItems($p['quantity']);
         }
     }
 
@@ -79,7 +80,7 @@ class Sales extends Model
         $products = $sale->products();
 
         foreach ($products as $p) {
-            $p->incrementItems();
+            $p->incrementItems($p->pivot->quantity);
         }
         $sale->delete();
     }
@@ -93,7 +94,7 @@ class Sales extends Model
         $products = $sale->products();
 
         foreach ($products as $p) {
-            $p->decrementItems();
+            $p->decrementItems($p->pivot->quantity);
         }
         $sale->restore();
     }

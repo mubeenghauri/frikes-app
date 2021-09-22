@@ -215,6 +215,7 @@
 </head>
 <body>
 
+
 		<!-- Navbar -->
 	  <nav class="navbar navbar-expand-lg  bg-warning">
 	    <!-- <div class="container-fluid text-center"> -->
@@ -222,7 +223,7 @@
 			<img class="" style="margin-left: 10px; fill:white;"  src="css/icons/solid/home.svg" width="35" alt="home page">
 		</a>
 		<!-- </div> -->
-		<h2 class="c-nav bold" style="font-weight: bold;align-content: center; margin-left: 47%; color: white; clear: both;">Frikes</h2>
+		<h2 class="navbar-text bold" style="font-weight: bold;align-content: center; margin-left: 47%; color: white; clear: both;">Frikes</h2>
 		<!-- <div class="container-fluid navs" >
 			<div class="row" style="margin-left: 200px;">
 				<div class="col-md-6 form" >
@@ -236,6 +237,27 @@
 				</div>
 			</div>
 		</div> -->
+
+		<!-- Collapsible wrapper -->
+		<div class="collapse navbar-collapse" id="navbarButtonsExample">
+			<!-- Left links -->
+			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+			<li class="nav-item">
+				{{-- <a class="nav-link" href="#">Dashboard</a> --}}
+			</li>
+			</ul>
+			<!-- Left links -->
+	
+			<div class="d-flex align-items-center" style="margin-right: 20px;" >
+				<input type="text" id="sales-id">
+				{{-- <button onclick="showModal()" > --}}
+				<img  class="" onclick="cancelSale()" style="margin-left: 10px; fill:white;"  src="css/icons/trash-white.svg" width="35" alt="home page">
+				{{-- </button>		 --}}
+			</div>
+		</div>
+		<!-- Collapsible wrapper -->
+		{{-- </div> --}}
+	  
 	  </nav>
 
 
@@ -328,16 +350,36 @@
 								</div>
 							</div>
 						</div>
-							<div class="container">
+						<div class="container">
 							<div class="row">
 								<div class="col-md-6">
 									<!-- <button type="button" onclick="confirm()" class="btn btn-warning">Confirm !</button> -->
 								</div>
-								<div class="col-md-6" style="width: 100px; margin-top:30px;">
+								<div class="col-md-6" style=" margin-top:30px;" >
 									<div class="omrs-input-group">
 										<label class="omrs-input-underlined">
-											Discount
-										<input id="discount" placeholder="discount" value=0 required style="height: 50px; font-size: 40px;">
+											<h5>Discount %</h5>
+											<input id="discount" type="number" placeholder="Discount"  required style="height: 50px; font-size: 40px;">
+										</label>
+									</div>
+								</div>
+							</div>
+							<div class="row" style=" margin-top:30px;">
+								<div class="col-md-6" >
+									<!-- <button type="button" onclick="confirm()" class="btn btn-warning">Confirm !</button> -->
+									<div class="omrs-input-group" style=" padding-top: 20px;width: 70px;">
+										{{-- <label class="omrs-input-underlined">
+												Amount Recieved
+										</label> --}}
+										<h1 id="return-amount"></h1>
+									</div>
+								</div>
+								<div class="col-md-6" >
+									<div class="omrs-input-group">
+										<label class="omrs-input-underlined">
+											Amount Recieved
+											<input id="recieved" type="number" placeholder="Recieved"  required style="height: 50px; font-size: 40px;">
+										</label>
 									</div>
 								</div>
 							</div>
@@ -348,29 +390,77 @@
 	  	</div> <!-- End container -->
 	  </div> <!-- End main -->
             <!-- begin product items modal -->
-            <div id="cancel-order-modal" class="modal fade cancel-order" tabindex="" role="dialog">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button aria-hidden="true" data-dismiss="modal" class="close" type="button">&times;</button>
-                            <h4 class="modal-title">Items</h4>
-                        </div>
-                        <div id="items-modal-body" class="modal-body">
 
-                            <form class="form" action="">
-								<label class="form-input" for=""> </label>
-								<select class="form-input" name="" id=""></select>
-						
-							</form>
-                        </div>
-                        <div class="modal-footer">
-							<button class="btn btn-primary"> Cancel Order </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-	  <script type="text/javascript">
+			
+
+	<script type="text/javascript">
 	  	// window.print();
+
+		function getDiscountAmount() {
+			let discper = parseFloat( $("#discount").val());
+			let total = parseInt( $("#total-amount").text());
+			let amntDisc = parseInt((discper * total)/100);
+			let newTotal = total - amntDisc;
+			console.log(`Amnt : ${total} disc% ${discper} discAmnd ${amntDisc} newtotal ${newTotal}`);
+			return [amntDisc, newTotal];
+		}
+
+		function resetUpdateAndDiscount() {
+			$("#recieved").val(0);
+			$("#discount").val(0);
+			$('#return-amount').text('');
+		}
+
+		$("#recieved").on( 'input', (e) => {
+			let rec = parseInt($("#recieved").val());
+			let total = parseInt( $("#total-amount").text());
+			
+			let disc = parseInt( $("#discount").val());
+
+			console.log(rec);
+			console.log(total);
+
+			let ret= rec - total;
+
+			if(disc > 0) {
+				ret += getDiscountAmount()[0];
+			}
+			console.log( disc);
+			$('#return-amount').text(ret);
+		});
+
+		function showModal() {
+			$('#pos-modal').click();
+		}
+
+		function cancelSale() {
+			let id = $('#sales-id').val();
+			if(id == '' ) {
+				toastr.warning("Provide valid sale id");
+				return;
+			}
+			console.log("Canceling sale id: "+id);
+			$.ajaxSetup({
+				headers: {
+					'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+				}
+			});
+			$.ajax({
+				type: 'POST',
+				url: "{{ url('/sales/cancel') }}",
+				data: {'saleid': id},
+				success: () => {
+					// window.location.reload(true);
+					toastr.success("Done, cancelled sale");
+					$("#sales-id").val('');
+				},
+				error: () => {
+					toastr.warning("sale does not exists");
+					$("#sales-id").val('');
+
+				}
+			});
+		}
 
 	  	function addOrder(e) {
 			var itemName = e.children[0].children[0].children[0].innerHTML;
@@ -493,7 +583,9 @@
 				orderdata['items'].push(orderitem);
 			}
 			orderdata['total'] = getTotal();
-			orderdata['discount'] = getDiscount(); 
+			orderdata['discount'] = getDiscountAmount()[0]; 
+			orderdata['discount_percent'] = getDiscount();
+			orderdata['new_amnt'] = getDiscount();
 			console.log(orderdata);
 			discard();
 			submitOrder(orderdata);
@@ -538,9 +630,9 @@
 			xhr.send(JSON.stringify(orderdata));
 		}
 
-		function showModal() {
-			$("#cancel-order-modal").modal('show');
-		}
+		// function showModal() {
+		// 	$("#cancel-order-modal").modal('show');
+		// }
 	  </script>
 </body>
 </html>

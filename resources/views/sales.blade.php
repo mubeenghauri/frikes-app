@@ -36,7 +36,7 @@
         <div class="row">
             <div class="col-md-4">
                 <div class="row">
-                    <div class="col-md-4">
+                    {{-- <div class="col-md-4">
                         <div class="panel panel-default">
                             <div class="panel-heading">Gross Total</div>
                                 <div class="panel-body" id="gross-sales">
@@ -48,19 +48,19 @@
                     <div class="col-md-4">
                         <div class="panel panel-default">
                             <div class="panel-heading">Total Discount</div>
-                                <div class="panel-body" id="discount">
-                                    discount
-                                </div>
+                            <div class="panel-body" id="discount">
+                                discount
                             </div>
                         </div>
-                    </div>
-                </div>      
+                    </div> --}}
+                </div>
+            </div>      
                 
             <div class="col-md-4 mt-2">
                 <select class="form-control" name="sales-date" id="sales-date" placeholder="Select Date"></select>
             </div>
             <div class="col-md-4 mt-4">
-                <button class="btn btn-primary" onclick="getXreport()"> Generate X-Report for this date </button>
+                {{-- <button class="btn btn-primary" onclick="getXreport()"> Generate X-Report for this date </button> --}}
             </div>
             
         </div>
@@ -83,10 +83,26 @@
             </tbody>    
         </table>
     </div><!-- table-responsive -->
-
-
   </div>
 
+    <!-- Begin Products Modal  -->
+    <div id="products-modal" class="modal fade" tabindex="" role="dialog">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button aria-hidden="true" data-dismiss="modal" class="close" type="button">&times;</button>
+                    <h4 class="modal-title">Items</h4>
+                </div>
+                <div id="products-modal-body" class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Products Modal -->
 
 @endsection 
     
@@ -143,8 +159,8 @@ function updateTable(date) {
 
         table.innerHTML += t;
     });
-    $('#gross-sales')[0].innerText = samount;
-    $('#discount')[0].innerText = disc;
+    // $('#gross-sales')[0].innerText = samount;
+    // $('#discount')[0].innerText = disc;
 
     console.log(samount);
 }

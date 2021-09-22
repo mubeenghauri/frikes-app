@@ -20,12 +20,15 @@ class ProductController extends Controller
 		$price = $request->input('price');
 		$category = $request->input('category');
 
+		Log::debug('add got request : ', $request->all());
+
 		$items = Item::all();
 		$dependent_items = array();
 
 		foreach ($items as $item) {
+			$n = implode(' ', explode('_', $request->input($item->name)));
 			$request->input($item->name) != null 
-			? $dependent_items[$item->name] = $request->input($item->name) 
+			? $dependent_items[$item->name] =  $n
 			: false;
 		}
 
@@ -35,7 +38,7 @@ class ProductController extends Controller
 			'price' => $price,
 			'category' => $category
 		]);
-
+		Log::debug("Got dependednt items : ", $dependent_items);
 		// then add the items associated with the product
 		Product::addItems($productname, $dependent_items);
 		

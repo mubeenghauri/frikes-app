@@ -29,10 +29,11 @@ class POSController extends Controller
 
             $items = $request->input('items');
             $total = $request->input('total');
-            $discount = $request->input('discount');
+            $discount = $request->input('discount') == null ?  0 : $request->input('discount');
             $data['items'] = $items;
             $data['total'] = $total;
             $data['discount'] = $discount;
+            $data['discount_per'] = $request->input('discount_percent') == null ? 0 : $request->input('discount_percent');
 
             $products = [];
     
@@ -72,7 +73,7 @@ class POSController extends Controller
             ]);
     
             Sales::addProducts($products, $sid);
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             Log::warning('[POSController] [processOrder] Error occoured : ', (array) $e);
             return response()->json(["status" => "failure"])->status(500);
         }
