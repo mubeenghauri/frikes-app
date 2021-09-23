@@ -166,12 +166,13 @@ function updateTable(date) {
             if(d.closing_id != null) {
                 t += ` <td style="color:green"> Closed-${d.closing_id}  </td> `;
             } else {
-                t += ` <td style="color:yellow"> Not Closed  </td> `;
+                t += ` <td style="color:purple"> Not Closed  </td> `;
             }
 
             t += ` <td> <img onclick="cancelSale('${d.sale_id}')" src="css/icons/trash.svg" alt="cancel sale">  </td> `;
         } else {
             t += ` <td style="color:red"> Cancelled  </td> `;
+            t += ` <td style="color:red"> -  </td> `;
             t += ` <td> <img onclick="undoCancelSale('${d.sale_id}')" width="15" src="css/icons/solid/redo.svg" alt="undo cancel sale">  </td> `;
 
         }

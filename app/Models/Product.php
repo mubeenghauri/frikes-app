@@ -40,7 +40,10 @@ class Product extends Model
      */
     public static function addItems($pname, $di) {
     	if($di != null || count($di) != 0 ) {
-    		$productid = Product::where(['name' => $pname])->get()->first()->id;
+            $product = Product::where(['name' => $pname])->get()->first();
+            // remove any previously associated items
+            $product->items()->detach();
+    		$productid = $product->id;
     		foreach($di as $itemName => $unit_consumed) {
     			DB::table('items_product')->insert([
     				'item_id' => Item::idByName($itemName),
@@ -56,7 +59,7 @@ class Product extends Model
      * associated with this product
      */
     public function decrementItems($quan) {
-        $items = $this->items();
+        $items = $this->items()->get();
         
         foreach ($items as $item) {
             $itemid = $item->pivot->item_id;
@@ -71,7 +74,7 @@ class Product extends Model
      * associated with this product
      */
     public function incrementItems($quan) {
-        $items = $this->items();
+        $items = $this->items()->get();
         
         foreach ($items as $item) {
             $itemid = $item->pivot->item_id;
@@ -88,8 +91,8 @@ class Product extends Model
 	public function items() {
 	
     	return $this->belongsToMany(Item::class, 'items_product', 'product_id', 'item_id')
-    				->withPivot('unit_consumed')
-                    ->get();
+    				->withPivot('unit_consumed');
+                    // ->get();
 	}
 
 

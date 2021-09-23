@@ -1,5 +1,18 @@
 @extends('shared')
 
+@section('css')
+<style type="">
+    
+.form-group {
+    display: inline-block;
+    margin-left: 10px;
+}
+.form-control {
+    display: inline-block;
+}
+</style>
+@endsection
+
 @section('pageContent')
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <div class="mainpanel">
@@ -18,9 +31,9 @@
         </div><!-- media -->
 
     </div><!-- pageheader -->
-    @if(isset($success))
+    @if(session('success'))
     <div class="alert alert-success">
-        {{ $success }}
+        {{ session('success') }}
     </div>
     @endif
     <div class="contentpanel">
@@ -50,9 +63,17 @@
                         <td>{{ $p->price }}</td>
                         <td>{{ $p->category }} </td>
                         <td> <img onclick="getItems('{{ $p->id }}')" style="margin-right: 10px" src="css/icons/list.svg"
-                                width="25" alt="list items"> <img style="margin-right: 10px"
-                                src="css/icons/solid/edit.svg" width="15" alt=""> <img
-                                onclick="cancelSale('${d.sale_id}')" src="css/icons/trash.svg" alt="cancel sale"></td>
+                                width="25" alt="list items"> 
+                             <img onclick="updateProduct(' {{ $p->name }} ', '{{ $p->id }}')" style="margin-right: 10px"
+                                src="css/icons/solid/edit.svg" width="15" alt=""> 
+                            <form style="display: inline; background-color: white;" action="{{ url('/products/delete') }}" method="POST">
+                                @csrf
+                                <input type="hidden" name="pid" value="{{$p->id}}">
+                                <button style="display: inline; background-color: white;" type="submit">
+                                   <img  src="css/icons/trash.svg" alt="cancel sale">            
+                                </button>
+                            </form>
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -69,7 +90,7 @@
                     </div>
                     <div class="modal-body">
 
-                        <form class="form-inline" method="POST" action="{{ url('/products')}}">
+                        <form class="form-inline" method="POST" action="{{ url('/products')}}" autocomplete="off">
                             @csrf
                             <div class="form-group">
                                 <label class="sr-only" for="exampleInputEmail2">Product Name</label>
@@ -134,41 +155,89 @@
         <!-- End product items modal -->     
     </div>
 </div>
-    @endsection
+     <div id="update-modal" class="modal fade" tabindex="" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button aria-hidden="true" data-dismiss="modal" class="close" type="button">&times;</button>
+                        <h4 class="modal-title">Update Product : <span id="update-pname"></span></h4>
+                    </div>
+                    <div id="update-modal-body" class="modal-body">
+                        <form action="{{ url('/products/update') }}" method="POST" autocomplete="off">
+                            @csrf
+                            <input id="pid" type="hidden" name="pid" value="">
+                            @foreach($items as $i)
+                                <div class="form-group" >
+                                    <label for="{{$i->name}}">
+                                        {{ $i->name }}
+                                    </label>
+                                    <input id="{{$i->name}}"  class="form-control" type="number" name="{{$i->name}}" step="0.001"
+                                            placeholder="{{$i->name}}">
+                                </div>
+                            @endforeach
+
+                            <div class="form-group">
+                                    <label>Price </label>
+                                    <input class="form-control" type="number" name="price" 
+                                            placeholder="price">
+                        
+                                <small id="emailHelp" class="form-text text-muted">Only enter price if need to change, else leave blank</small>
+
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button  class="btn btn-primary" type="submit"> Update </button>    
+                        </div>
+                    </form>    
+                </div>
+            </div>
+        </div>
+@endsection
 
 
-    @section('js')
-    <script>
-        function getItems(id) {
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $.ajax({
-                type: 'GET',
-                url: "{{ url('/products/items') }}",
-                data: {
-                    'productid': id
-                },
-                success: (response) => {
-                    console.log(response);
+@section('js')
+<script>
 
-                    var data = '<table class="table"> <thead> <tr> <th>Item Name </th> <th> Units Consumed </th> <th> Warning Cound </th> </tr>  </thead>';
-                    data +=  `<tbody class="table"> `;
+    function updateProduct(pname, id) {
+        console.log(pname);
 
-                    response.forEach(r => {
-                      data +=  `<tr> <td> ${r.name} </td> <td>${r.pivot.unit_consumed}</td> <td>${r.warning_quantity} </td> </tr> `;
-                    });
+        $('#pid').val(pname);
+        $('#update-pname').text(pname);
+        $('#update-modal').modal('show');
 
-                    data += "</tbody> </table>";
+    }
 
-                    $('#items-modal-body')[0].innerHTML = data;
-                    $('#items-modal').modal('show');
-                },
-                dataType: 'json'
-            });
-        }
 
-    </script>
-    @endsection
+    function getItems(id) {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            type: 'GET',
+            url: "{{ url('/products/items') }}",
+            data: {
+                'productid': id
+            },
+            success: (response) => {
+                console.log(response);
+
+                var data = '<table class="table"> <thead> <tr> <th>Item Name </th> <th> Units Consumed </th> <th> Warning Cound </th> </tr>  </thead>';
+                data +=  `<tbody class="table"> `;
+
+                response.forEach(r => {
+                  data +=  `<tr> <td> ${r.name} </td> <td>${r.pivot.unit_consumed}</td> <td>${r.warning_quantity} </td> </tr> `;
+                });
+
+                data += "</tbody> </table>";
+
+                $('#items-modal-body')[0].innerHTML = data;
+                $('#items-modal').modal('show');
+            },
+            dataType: 'json'
+        });
+    }
+
+</script>
+@endsection
