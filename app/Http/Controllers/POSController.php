@@ -25,7 +25,7 @@ class POSController extends Controller
     public function processOrder(Request $request) {
         // print_r($request);
         try {
-            Log::debug((array) $request->all());
+            Log::debug("[POSControler::processOrder] Got Input : ", (array) $request->all());
 
             $items = $request->input('items');
             $total = $request->input('total');
@@ -38,7 +38,7 @@ class POSController extends Controller
             $products = [];
     
             foreach ($items as $item) {
-                Log::debug($item);
+                Log::debug("[POSControler::processOrder] Iterating through item : ", (array) $item);
                 $p = Product::where('name', $item['name'])->get()->first();
     
                 $products[] = [
@@ -48,7 +48,7 @@ class POSController extends Controller
                 ];
             }
     
-            Log::debug($products);
+            Log::debug("[POSControler::processOrder] Got products list for this sale : ", (array)$products);
             
             $sid = Sales::getId();
 

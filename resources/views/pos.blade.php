@@ -568,17 +568,19 @@
 			for (let i = 0; i < o.length; i++) {
 				let p = o[i].children[0].innerText;
 				let price = o[i].children[1].value;
-				console.log(p);
-				console.log(price);
+				console.log("->",p);
+				console.log("-->",price);
 				
-				let name = p.split('x')[0].trim();
-				let quantity = p.split('x')[1].trim();
+				let name = p.split(' x ')[0].trim(); // this is good now.
+
+				let quantity = p.split(' x ')[1].trim();
 
 				let orderitem = {
 					'name' : name, 
 					'price' : price,
 					'quantity' : quantity
 				}
+				console.log("pushed item : ",orderitem);
 
 				orderdata['items'].push(orderitem);
 			}
@@ -605,6 +607,7 @@
 		}
 
 		function submitOrder(orderdata) {
+			console.log("SubmitOrder: Got data :", orderdata);
 			var xhr = new XMLHttpRequest();
 			var url = "{{ url('/order') }}";
 			xhr.open("POST", url, true);

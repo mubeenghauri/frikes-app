@@ -35,6 +35,7 @@ class ProductController extends Controller
 
 		foreach ($items as $item) {
 			$n = implode(' ', explode('_', $request->input($item->name)));
+			// echo  $n.PHP_EOL;
 			$request->input($item->name) != null 
 			? $dependent_items[$item->name] =  $n
 			: false;
