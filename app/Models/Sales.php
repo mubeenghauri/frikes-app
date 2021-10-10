@@ -43,10 +43,10 @@ class Sales extends Model
      * @var string
      */
     public static $salesIdPrefix = "S-";
-    protected $casts = [
-        'created_at' => 'datetime:d-M-Y H:i:s', // Change your format
-        'updated_at' => 'datetime:d/m/Y',
-    ];
+    // protected $casts = [
+    //     'created_at' => 'datetime:d-M-Y H:i:s', // Change your format
+    //     'updated_at' => 'datetime:d/m/Y',
+    // ];
 
     public static function getId() {
         $salecount = Sales::withTrashed()->get()->count()+1;
@@ -87,6 +87,15 @@ class Sales extends Model
             $p->incrementItems($p->pivot->quantity);
         }
         $sale->delete();
+    }
+
+
+    public function getCreatedAtAttribute($value) {
+        return Carbon::parse($value)->timezone('Asia/Karachi')->format("d-M-Y h:i:s a");
+    }
+
+    public function getUpdatedAtAttribute($value) {
+        return Carbon::parse($value)->timezone('Asia/Karachi')->format("d-M-Y h:i:s a");
     }
 
     public static function undoCancel(string $sid) {
