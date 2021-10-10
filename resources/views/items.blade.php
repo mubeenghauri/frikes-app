@@ -69,7 +69,7 @@
         </div>
         <div class="modal-body">
 
-          <form class="form-inline" method="POST" action="{{ url('/item')}}">
+          <form class="form-inline" method="POST" action="{{ url('/item')}}" autocomplete="off">
             @csrf
             <div class="form-group">
                 <label class="sr-only" for="exampleInputEmail2">Item Name</label>
@@ -78,7 +78,7 @@
             
             <div class="form-group">
                 <label class="sr-only" for="exampleInputPassword2">Item Quantity</label>
-                <input type="number" class="form-control" name="quantity" id="exampleInputPassword2" placeholder="Item Quantity">
+                <input type="number" step="0.001" class="form-control" name="quantity" id="exampleInputPassword2" placeholder="Item Quantity">
             </div><!-- form-group -->
             
             <div class="form-group">
